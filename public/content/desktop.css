@@ -1,0 +1,134 @@
+.content
+{	
+	
+	width:872px;
+	padding-top: 32px;
+	margin:0 auto;
+}
+
+div.title
+{
+	display: inline-block;
+	width:420px;	
+	padding-right: 28px;
+}
+input.title, label.title
+{
+	width:420px;
+	display: block;
+}
+
+/*div.date
+{
+	display: inline-block;
+	width:238px;	
+	padding-right: 12px;
+}*/
+input.date
+{
+	width: 238px;
+	margin-right:12px;	
+}
+
+.dateTimeLabelsD
+{
+	display: inline-block;
+}
+.dateTimeLabelsM
+{
+	display: none;
+}
+
+
+
+label.date
+{
+	width:254px;
+	display: inline-block;
+}
+label.timeFrom
+{
+	width:94px;
+	display: inline-block;	
+}
+
+
+
+/*div.time
+{
+	display: inline-block;
+	width: 72px;	
+	
+}*/
+input.time
+{	
+	width: 72px;
+	display: block;
+}
+
+
+
+div.users
+{
+	width:420px;
+	display: inline-block;
+	padding-right: 28px;
+	margin-top: 24px;
+	vertical-align: top;
+}
+
+.users label
+{
+	display: inline-block;
+	width:420px;		
+}
+.users select
+{	
+	width:420px;	
+}
+
+
+.participants-container
+{
+	margin-top:8px;	
+	width:420px; 
+	display: flex; 
+	flex-wrap: wrap;
+}
+
+.participant
+{	
+	margin-right:8px;
+	height: 24px;	
+	align-items: center; 
+	display: flex;	
+}
+/*.avatar
+{
+	32px;
+}*/
+.roomsPart
+{
+	display: inline-block;
+	margin-top:24px;	
+	width:420px; 
+	vertical-align: top;
+}
+.menuOptionsM, .bottomOptionsM
+{
+	display: none
+}
+
+.mentOptionsD
+{
+	display: inline;
+}
+.header
+{
+	margin-bottom: 20px;
+}
+.roomDescription
+{
+	width:370px;
+	
+}

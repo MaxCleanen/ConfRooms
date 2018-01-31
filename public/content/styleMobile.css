@@ -1,0 +1,21 @@
+body
+{    
+	margin: 0 0 0 16px;	
+}
+
+.heading
+{	
+	height: 48px;
+	background: #FFFFFF;	
+}
+
+.heading img
+{
+	height: 20.9px;
+	width: 149px;
+}
+
+button.createEvent
+{
+	display: none;
+}

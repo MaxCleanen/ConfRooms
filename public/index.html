@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html ng-app="YRooms">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script> -->
+
+    <script src="/scripts/core.js"></script>
+    <!-- <script src="/editEvent/editEvent.js"></script>
+    <script src="/mainView/mainView.js"></script> -->
+    
+
+	<link rel="stylesheet" type="text/css" href="content/styleMobile.css" media="(max-device-width:360px)">
+	<link rel="stylesheet" type="text/css" href="content/styleDesktop.css" media="(min-device-width:361px)">
+
+	<link rel="stylesheet" type="text/css" href="/content/desktop.css" media="(min-device-width:361px)">
+	<link rel="stylesheet" type="text/css" href="/content/mobile.css" media="(max-device-width:360px)">
+
+	<link rel="stylesheet" type="text/css" href="content/newEvent.css" media="(min-device-width:361px)">
+
+	
+
+	<style type="text/css">
+		@font-face{
+			font-family: HelveticaNeue;
+			src: url(fonts/HelveticaNeue.ttf);				
+		}
+		@font-face{
+			font-family: HelveticaNeue-Bold;
+			src: url(fonts/HelveticaNeueBold.ttf);				
+			font-weight: bold;
+		}
+		@font-face{
+			font-family: HelveticaNeue-Medium;
+			src: url(fonts/HelveticaNeue-Medium.ttf);				
+			font-weight: bold;
+		}
+
+		body
+		{
+			white-space: nowrap;
+			width:1250px;
+		}
+
+		/*table tr>td:first-child
+		{
+			width:220px; 						
+			padding: 4px 0;
+		}
+		table
+		{
+			border-collapse: collapse;
+		}*/
+		.oCell
+		{			
+			border-top: 8px solid #E9ECEF; 
+			border-bottom: 8px solid #E9ECEF; 						
+			height: 28px;
+			padding:0;
+		}
+		
+		.closed
+		{
+			background: #D5DFE9;
+			position: relative;
+			display: inline-block;
+		}
+		.closed .eventToolTip
+		{
+			visibility: hidden;
+			background-color:white;			
+			border-radius: 8px;
+			width: 338px;
+			height:120.8px;
+			padding:0 0 16px 16px;			
+			box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);			
+			position: absolute;
+		    top: 100%;
+			box-sizing: border-box;
+			z-index: 1;
+		}
+		.closed:hover{
+			background: #98A9B9;
+		}
+		.closed:hover .eventToolTip
+		{
+			visibility: visible;
+		}
+		.closed:hover .eventToolTip::after
+		{
+			content:"";
+			position: absolute;
+			bottom:100%;
+			left:50%;
+			margin-left: -5px;
+			border-width: 5px;
+			border-style: solid;
+			border-color: transparent transparent white transparent;
+		}
+
+		.free
+		{
+			background: white;	
+			width:100px;
+		}		
+		.free:hover
+		{
+			
+			background: #2B50FD;
+			border-radius: 2px;
+			color:white;
+			height:28px;
+		}
+		.free:hover::after
+		{
+			content:"";	
+			background: #2B50FD;
+			border-radius: 2px;
+			color:white;
+			height:28px;
+		}
+		
+		
+		
+		div.oCell
+		{
+			display: inline-block;
+			
+		}
+
+		div.timeRow
+		{
+			width:1072px;
+			height:44px;
+			display: inline-block;
+			    margin-left: -3px;
+		}
+		div.roomDesc
+		{
+			display: inline-block; 
+			width:220px;
+			padding: 4px 0;	
+			height: 36px;
+		    background: #FFFFFF;
+    		box-shadow: 1px 0 0 0 #E9ECEF;
+		}
+		button.createEvent
+		{
+			border: none;
+			background: #007DFF;
+			border-radius: 4px;
+			height:36px;
+			width:140px;
+			font-family: HelveticaNeue-Medium;
+			font-size: 13px;
+			color: #FFFFFF;
+			letter-spacing: 0;
+			position: absolute;
+			right:25px;
+		}
+		button.createEvent:hover
+		{
+			background: #0059FF;
+		}
+		button.createEvent:active
+		{
+			background: #0059FF;
+		}
+		.heading{		
+			background: #FFFFFF;	
+			display: flex;
+			align-items: center;
+			box-shadow: 0 1px 0 0 #E9ECEF;	
+			position: relative;
+		}
+
+		#ic_edit{
+			fill: rgba(0,0,0,0.43);
+		}
+		.pen
+		{
+			display:flex; justify-content: center; align-items: center; background: #E9ECEF; width:24px;height:24px; border-radius: 100px;
+		}
+		.pen:hover #ic_edit
+		{
+			fill: black;
+		}
+		.verticalLine
+		{
+			border-left: thick 1px solid;
+		}
+
+		#Rectangle-4-Copy{
+			fill: rgba(0,0,0,0.43);
+		}
+		#rightArrow:hover #Rectangle-4-Copy
+		{
+			fill: black;
+		}
+
+		#Rectangle-4{
+			fill: rgba(0,0,0,0.43);
+			stroke: rgba(0,0,0,0.43);
+		}
+		#leftArrow:hover #Rectangle-4
+		{
+			fill: black;
+			stroke:black;
+		}
+		
+		.currentTime
+		{
+			display: inline-block;
+
+			background: #007DFF;
+			border-radius: 100px;
+			width: 49px;
+			
+			height:20px;
+			line-height:20px;
+			text-align:center;
+
+			position: absolute;			
+		}
+		.currentTime::after
+		{
+			height: 100%;			
+			width: 0;
+			position: absolute;
+			border: 1px solid #007DFF;
+			top: 20px;
+			content: " ";
+			z-index: 999;
+			margin-left:-15px;
+		}
+		.calendarBox
+		{
+			display:flex; 
+			align-items:center;
+			width:220px;
+		}
+		.dateDiv
+		{
+			display:inline-flex; 
+			align-items:center; 
+			height:46px; 
+			padding: 11px 0;
+			box-sizing: border-box;
+			background: #FFFFFF;
+			box-shadow: 0 -1px 0 0 #E9ECEF, 0 1px 0 0 #E9ECEF;
+		}
+		.timeLine
+		{
+			display: inline-block;
+			width:49px; 
+			margin:0 8px; 
+		}
+		.grid .timeLine::after{
+			height: 100%;
+			width: 0;
+			position: absolute;
+			border: 1px solid rgba(19,100,205,0.10);
+			top: 117px;
+			content: " ";
+			z-index: 999;
+		}
+
+
+	</style>
+</head>
+<body>
+	
+	<div ng-controller="mainController">
+		<div class="heading" >
+			<img src="logo.svg">
+			<button class="createEvent" ng-click="createEventFromScratch()">Создать встречу</button>
+		</div>
+		<div class="dateDiv">
+			<div class="calendarBox">			
+				<div id="leftArrow" ng-click="changedate(-1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px;">
+					<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+					    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
+					        <g id="главная" transform="translate(-31.000000, -88.000000)" stroke="#000000" stroke-width="2">
+					            <g id="Дата" transform="translate(24.000000, 82.000000)">
+					                <g id="arrow2" transform="translate(8.000000, 7.000000)">
+					                    <polyline id="Rectangle-4" transform="translate(5.000000, 5.000000) rotate(-315.000000) translate(-5.000000, -5.000000) " points="8 8 2 8 2 2 2 2"></polyline>
+					                </g>
+					            </g>
+					        </g>
+					    </g>
+					</svg>
+				</div>
+				<div style="display:inline-block;width:123px;margin:0 12.5px 0 13.5px;text-align: center">{{currentDate.getDate()}} {{monthName}}</div>
+				<div id="rightArrow" ng-click="changedate(+1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px; margin-right: 24px">
+					<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+					    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
+					        <g id="главная" transform="translate(-207.000000, -88.000000)" stroke="#000000" stroke-width="2">
+					            <g id="Дата" transform="translate(24.000000, 82.000000)">
+					                <g id="arrow" transform="translate(179.000000, 7.000000)">
+					                    <polyline id="Rectangle-4-Copy" transform="translate(5.000000, 5.000000) rotate(-135.000000) translate(-5.000000, -5.000000) " points="8 8 2 8 2 2 2 2"></polyline>
+					                </g>
+					            </g>
+					        </g>
+					    </g>
+					</svg>
+				</div>
+			</div>
+			<div class="currentTime" style="left:{{245+((currentDate-startOfDay)/60000*1072/960)}}px;line-height: 20px; font-family: HelveticaNeue-Bold;font-size: 11px;color: #FFFFFF;letter-spacing: 0.4px;">
+				<span style="display: inline-block;vertical-align: middle;line-height: normal">
+					{{('0' + currentDate.getHours()).slice(-2)+':'+('0' + currentDate.getMinutes()).slice(-2)}}
+				</span>			
+			</div>			
+			<div ng-repeat="h in getNumber()" class="timeLine" style="text-align: center;">{{h}}</div>	
+		</div>
+		
+
+		<div class="grid" style="height:0">
+			<div class="dateDiv" style="height:0; display:inline-flex;height:0; padding:0">
+				<div style="display: inline-block;width:220px"></div>
+				<div ng-repeat="h in getNumber()" class="timeLine" style="text-align:center"></div>				
+			</div>			
+		</div>	
+		
+		
+		<div>			
+			<div class="floor">
+				<label>7 ЭТАЖ</label>
+			</div>
+			<div class="room" ng-repeat="r in rooms | orderBy:'floor'">
+				<div class="roomDesc">
+					<div style="display:table">
+						<span class="roomName">{{r.title}}</span>
+						<br>
+						<span class="roomCap">до {{r.capacity}} человек</span>
+					</div>
+				</div>
+				<div class="timeRow">					
+					<div ng-repeat="e in r.timeslots" ng-switch="e.occupied" style="display:inline-block; height:44px;">
+						<div ng-switch-when="true" style="display:inline-block;height:44px;">
+							<div class="oCell closed"  id="{{e.id}}" style="display:inline-block; width:{{(e.dateEnd-e.dateStart)/60000*1072/960}}px">
+								<div class="eventToolTip" style="padding:16px; left: -{{169-(e.dateEnd-e.dateStart)/60000*1072/960/2}}px">
+									<label style="font-family: HelveticaNeue-Bold;font-size: 15px;color: #000000;letter-spacing: 0;line-height: 24px;" for="">{{e.title}}</label>
+									<div style="float:right">
+										<div class="pen">
+											<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+											        <g id="assets" transform="translate(-110.000000, -76.000000)">
+											            <g id="edit" transform="translate(108.000000, 74.000000)">
+											                <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
+											                <path d="M13.0793987,5.10592253 C13.3068671,4.87845412 13.3068671,4.49934011 13.0793987,4.28353675 L11.7145883,2.91872631 C11.4987849,2.6912579 11.1196709,2.6912579 10.8922025,2.91872631 L9.81901819,3.98607806 L12.0062144,6.17327428 L13.0793987,5.10592253 Z M2.75,11.0609288 L2.75,13.248125 L4.93719622,13.248125 L11.3879669,6.79152175 L9.20077073,4.60432553 L2.75,11.0609288 Z" id="ic_edit" fill="#000000" fill-rule="nonzero"></path>
+											            </g>
+											        </g>
+											    </g>
+											</svg>
+										</div>
+									</div>
+									
+									<br>
+
+									<label style="font-family: HelveticaNeue;font-size: 13px;color: #000000;letter-spacing: 0;line-height: 17px;" for="">										
+										{{('0' + e.dateStart.getHours()).slice(-2)+':' + ('0' + e.dateStart.getMinutes()).slice(-2)+'—'+('0' + e.dateEnd.getHours()).slice(-2)+':' + ('0' + e.dateEnd.getMinutes()).slice(-2)}}
+										  
+									</label><br>
+									
+									<img class="avatar" src="./images/john-lennon-24px.jpeg" alt="">
+									
+									<label style="font-family: Helvetica;font-size: 13px;color: #000000;letter-spacing: 0;line-height: 17px;" for="">
+										{{e.users[0].login}}
+									</label>
+									<label style="font-family: Helvetica;font-size: 13px;color: #37003E;letter-spacing: 0;line-height: 17px;"for="">
+										 и {{e.users.length-1}} участников
+									</label>
+								</div>
+							</div>		
+						</div>
+						<div ng-switch-when="false" style="display:inline-block;height:44px;">
+							<div class="oCell free" ng-click="createEvent(e.dateEnd,e.dateStart)" style="display:inline-block;width:{{(e.dateEnd-e.dateStart)/60000*1072/960}}px">
+							</div>		
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div ng-controller="eventController">
+		<div class="heading">
+			<img src="/logo.svg">
+		</div>
+		<div class="content">
+			<div class="header">			
+				<label class="pageHeader">
+					Редактирование встречи
+				</label>			
+				<div class="bigCloseImage">
+					<img src="/close.svg" style="height:18px; padding:3px">	
+				</div>
+			</div>
+			<div>
+				<div class="title">
+					<label class="title captionFont">Тема</label>
+					<input class="title" placeholder="О чём будете говорить?" value={{title}}>			
+				</div>
+				<div class="datePart" style="display: inline-block;">
+					<div class="dateTimeLabelsD">
+						<label class="date captionFont">Дата</label>
+						<label class="timeFrom captionFont" style="margin-left:-4px;margin-right:-4px;width:94px;">Начало</label>				
+						<label class="captionFont" style="width:41px;">Конец</label>
+					</div>
+					<div class="dateTimeLabelsM ">
+						<label class="captionFont">Дата и время</label>
+					</div>
+					<div >
+						<input style="display: inline-block;" class="date"></input>
+						<input  style="display: inline-block;" class="time"></input>
+						<label style="vertical-align: middle; width:14px; font-family: HelveticaNeue-Bold; font-size: 13px;color: #000000;letter-spacing: 0.47px;">—</label>
+						<input  style="display: inline-block;" class="time"></input>
+					</div>	
+				</div>	
+			</div>
+			<div>
+				<div class="users">
+					<label class="captionFont">Участники</label>			
+					<input type="text"  id="users" placeholder="Например, Тор Одинович">
+					<label for="languages">
+					  <datalist id="languages">
+					    <select>
+					      <option ng-repeat="user in users" value="{{user.login}}">{{user.login}}</option>				      
+					    </select>
+					  </datalist>
+					</label>
+
+					<div class="participants-container">
+						<div class="participant" ng-repeat="user in users">
+							<img class="avatar" src="/close.svg" style="height:100%; width:24px; margin-right: 8px;">
+							{{user.login}}
+							<div class="closeImage">
+								<svg width="9px" height="9px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+							    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+							    <title>close</title>
+							    <desc>Created with Sketch.</desc>
+							    <defs></defs>
+							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							        <g id="Новая-встреча" transform="translate(-325.000000, -306.000000)">
+							            <g id="человек3" transform="translate(204.000000, 299.000000)">
+							                <g id="close" transform="translate(118.000000, 4.000000)">
+							                    <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
+							                    <path class="closeImageSVG" d="M8.02081528,6.62132034 L5.19238816,3.79289322 C4.80186386,3.40236893 4.16869888,3.40236893 3.77817459,3.79289322 L3.77817459,3.79289322 L3.77817459,3.79289322 C3.3876503,4.18341751 3.3876503,4.81658249 3.77817459,5.20710678 L3.77817459,5.20710678 L6.60660172,8.03553391 L3.77817459,10.863961 C3.3876503,11.2544853 3.3876503,11.8876503 3.77817459,12.2781746 L3.77817459,12.2781746 L3.77817459,12.2781746 C4.16869888,12.6686989 4.80186386,12.6686989 5.19238816,12.2781746 L5.19238816,12.2781746 L8.02081528,9.44974747 L10.8492424,12.2781746 C11.2397667,12.6686989 11.8729317,12.6686989 12.263456,12.2781746 C12.6539803,11.8876503 12.6539803,11.2544853 12.263456,10.863961 L9.43502884,8.03553391 L12.263456,5.20710678 C12.6539803,4.81658249 12.6539803,4.18341751 12.263456,3.79289322 C11.8729317,3.40236893 11.2397667,3.40236893 10.8492424,3.79289322 L8.02081528,6.62132034 Z" id="Combined-Shape" fill="#AFB4B8"></path>
+							                </g>
+							            </g>
+							        </g>
+							    </g>
+							</div>
+						</div>					
+					</div>
+				</div>
+				<div class="roomsPart">		
+					<label class="captionFont" style="padding-bottom: 5px">Ваша переговорка</label>
+					<div class="rroom currentRoom" style="margin-top:3px">
+						<div class="roomDescription" style="word-wrap: break-word;">
+							<label for="">{{roomTitle}}</label>	
+						</div>
+						<div style="width:16px;height:16px;margin:0 12px;">						
+								<svg style="display: block; height:16px; margin:auto;" width="9px" height="9px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+							    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+							    <title>close</title>
+							    <desc>Created with Sketch.</desc>
+							    <defs></defs>
+							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							        <g id="Новая-встреча" transform="translate(-325.000000, -306.000000)">
+							            <g id="человек3" transform="translate(204.000000, 299.000000)">
+							                <g id="close" transform="translate(118.000000, 4.000000)">
+							                    <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
+							                    <path class="closeImageSVG" d="M8.02081528,6.62132034 L5.19238816,3.79289322 C4.80186386,3.40236893 4.16869888,3.40236893 3.77817459,3.79289322 L3.77817459,3.79289322 L3.77817459,3.79289322 C3.3876503,4.18341751 3.3876503,4.81658249 3.77817459,5.20710678 L3.77817459,5.20710678 L6.60660172,8.03553391 L3.77817459,10.863961 C3.3876503,11.2544853 3.3876503,11.8876503 3.77817459,12.2781746 L3.77817459,12.2781746 L3.77817459,12.2781746 C4.16869888,12.6686989 4.80186386,12.6686989 5.19238816,12.2781746 L5.19238816,12.2781746 L8.02081528,9.44974747 L10.8492424,12.2781746 C11.2397667,12.6686989 11.8729317,12.6686989 12.263456,12.2781746 C12.6539803,11.8876503 12.6539803,11.2544853 12.263456,10.863961 L9.43502884,8.03553391 L12.263456,5.20710678 C12.6539803,4.81658249 12.6539803,4.18341751 12.263456,3.79289322 C11.8729317,3.40236893 11.2397667,3.40236893 10.8492424,3.79289322 L8.02081528,6.62132034 Z" id="Combined-Shape" fill="#AFB4B8"></path>
+							                </g>
+							            </g>
+							        </g>
+							    </g>
+							
+						</div>
+					</div>
+					<div class="rroom recommendedRoom">2</div>
+					
+				</div>	
+			</div>
+			
+
+					
+			<div class="menuOptionsM">
+				<button class="deleteM delete" ng-click="deleteEvent(eventId)">Удалить встречу</button>
+			</div>
+			<div class="bottomOptionsM">
+				<button class="cancelM" style="margin-left:81px; margin-right:12px">Отмена</button>
+				<button class="saveM save" ng-click="updateEvent()">Сохранить</button>
+			</div>
+			
+			<div class="mentOptionsD">
+				<div style="display: flex; justify-content: center; padding-bottom: 20px; padding-top: 20px">
+				<div>
+					<button class="cancel" style="width:80">Отмена</button>
+					<button class="cancel deleteD" id="deleteBtn" ng-click="deleteEvent(eventId)" style="width:140">Удалить встречу</button>
+					<button class="cancel saveD" id="saveBtn" ng-click="updateEvent()" style="width:101">Сохранить</button>	
+				</div>			
+				<!-- <button class="createEvent">Создать встречу</button> -->
+			</div>		
+			</div>
+			<div id="myModal" class="modal">
+				
+				<div class="modal-content">		    
+					<div style="height:40px; width:40px; padding:32px 202px 16px 202px;">
+						<img src="/emoji1.svg" style="height:28px; width:39px;">	
+					</div>
+								
+					<label style="width:320px; display: block;margin: auto;font-family: HelveticaNeue-Bold;font-size: 20px;color: #000000;letter-spacing: 0;line-height: 24px; text-align: center">
+						Встреча будет <br>удалена безвозвратно
+					</label>
+					<div style="display: flex; justify-content: center; padding-bottom: 32px; padding-top: 24px">
+						<button class="cancel" style="width:80px">Отмена</button>
+						<button class="cancel" id="deleteBtn" style="width:86px">Удалить</button>
+					</div>			
+				</div>
+			</div>
+			<div class="modal" id="saveModal">
+				<div class="eventCreatedModal-content">
+					<div style="height:40px; width:40px; padding:32px 202px 16px 202px;">
+						<img src="/emoji2.svg" style="height:28px; width:39px;">	
+					</div>
+								
+					<label style="width:320px; display: block;margin: auto;font-family: HelveticaNeue-Bold;font-size: 20px;color: #000000;letter-spacing: 0;line-height: 24px; text-align: center">
+						Встерча создана!
+					</label>
+					<div style="display: flex; justify-content: center; padding-bottom: 32px; padding-top: 24px">
+						<button class="cancel" style="width:80px">Отмена</button>
+						<button class="cancel" id="deleteBtn" style="width:86px">Удалить</button>
+					</div>	
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	
+	
+
+
+</body>
+<script>
+
+	// Get the modal
+	var deletemodal = document.getElementById('myModal');
+
+	var savemodal = document.getElementById('saveModal');
+
+	// Get the button that opens the modal
+	var deleteMBtn = document.getElementsByClassName("deleteM")[0];
+	var saveMBtn = document.getElementsByClassName("saveM")[0];
+	var deleteDBtn = document.getElementsByClassName("deleteD")[0];
+	var saveDBtn = document.getElementsByClassName("saveD")[0];
+
+
+
+	// When the user clicks the button, open the modal 
+	deleteMBtn.onclick = function() {
+	    deletemodal.style.display = "block";
+	}
+	saveMBtn.onclick = function() {
+	    savemodal.style.display = "block";
+	}
+	deleteDBtn.onclick = function() {
+	    deletemodal.style.display = "block";
+	}
+	saveDBtn.onclick = function() {
+	    savemodal.style.display = "block";
+	}
+
+	window.onclick = function(event) {
+	    if (event.target == savemodal) {
+	        savemodal.style.display = "none";
+	    }
+	    if (event.target == deletemodal) {
+	        deletemodal.style.display = "none";
+	    }
+	}
+</script>
+</html>
+

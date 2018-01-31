@@ -1,0 +1,85 @@
+body
+{
+	margin: 0 0 0 25px;
+}
+
+.heading
+{
+	height:71px;			
+}
+.heading img
+{
+	height: 24.4px;
+	width: 173.9px
+}
+
+.floor
+{
+	height:38px;
+	font-family: HelveticaNeue-Bold;
+	font-size: 11px;
+	color: #858E98;
+	letter-spacing: 0.4px;
+	background: #FFFFFF;
+	box-shadow: 1px 0 0 0 #E9ECEF;
+}
+
+.room
+{
+	height:44px;	
+}
+
+.roomName
+{
+	font-family: HelveticaNeue-Medium;
+	font-size: 15px;
+	color: #000000;
+	line-height: 17px;
+}
+.roomCap
+{
+	font-family: HelveticaNeue;
+	font-size: 13px;
+	color: #000000;
+	line-height: 17px;
+}
+
+.oRoomName
+{
+	font-family: HelveticaNeue-Medium;
+	font-size: 15px;
+	color: #858E98;
+	line-height: 17px;
+}
+.oRoomCap
+{
+	font-family: HelveticaNeue;
+	font-size: 13px;
+	color: #858E98;
+	line-height: 17px;
+}
+
+.room:hover .roomName
+{
+	color: #0070E0;
+}
+.roomName:active
+{
+	color: #1D54FE;
+}
+
+.divider>td:first-child
+{
+	height:4px;
+	background-color: white;
+}
+.divider>td:not(first-child)
+{
+	height:4px;
+	background-color: #E9ECEF;
+}
+
+.avatar
+{		
+	border-radius: 16px;
+}

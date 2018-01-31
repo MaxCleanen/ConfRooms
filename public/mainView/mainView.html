@@ -1,0 +1,26 @@
+<div ng-controller="dateController">
+		{{currentDate}}
+	</div>
+<div ng-controller="roomController">		
+	<div ng-controller="roomSchedulleController">		
+		<div class="grid">
+			<div class="floor">
+				<label>7 ЭТАЖ</label>
+			</div>
+			<div class="room" ng-repeat="room in rooms">
+				<div>
+					<label class="oRoomName">{{room.title}}</label><br>
+					<label class="oRoomCap">3—6 человек</label>
+				</div>
+				<div class="oCell closed" ng-click="showDetails(2)"></div>
+				<div class="oCell free"></div>
+				<div class="oCell free"></div>
+				<div class="oCell closed"></div>
+			</div>
+			<div class="divider">
+				
+			</div>
+		</div>
+	</div>	
+</div>
+
