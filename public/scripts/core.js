@@ -1,7 +1,21 @@
-var YRoomsApp = angular.module('YRoomsApp',[]);
+var YRoomsApp = angular.module('YRoomsApp',["ngRoute"])
+    .config(function($routeProvider){
+        $routeProvider.when('/editEvent:eventId?',
+        {
+            templateUrl:'newEvent.html',
+            controller: 'eventController'
+        });
+        $routeProvider.when('/main',
+        {
+            templateUrl:'main.html',
+            controller: 'mainController'
+        });
+        $routeProvider.otherwise({redirectTo: '/main'});
+        // /$locationProvider.html5Mode(true);
+    });
 
 
-YRoomsApp.controller("mainController", function mainController($scope,$http,$q, $interval){
+YRoomsApp.controller("mainController", function mainController($scope,$http,$q, $interval,$location){
     
     $interval(function(){
         $scope.currentTime = new Date();
@@ -34,7 +48,8 @@ YRoomsApp.controller("mainController", function mainController($scope,$http,$q, 
     }
     $scope.createEventFromScratch = function(){        
     };
-    $scope.createEvent = function(dateStart,dateEnd){        
+    $scope.go = function(path){   
+        $location.path(path);
     };
     $scope.editEvent = function(eventId){       
     };    
@@ -42,10 +57,6 @@ YRoomsApp.controller("mainController", function mainController($scope,$http,$q, 
         return [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
     }
 })
-function setTime()
-{
-
-}
 
 function process($scope,$http){    
     $scope.startOfDay = new Date($scope.currentDate.getFullYear(),$scope.currentDate.getMonth(),$scope.currentDate.getDate(), 8,0,0,0);    
@@ -58,7 +69,7 @@ function process($scope,$http){
 
         var eventpromise =  $http.get(`/graphql?query=query{events{id, title, dateStart,dateEnd,users{login,avatarUrl},room{id,title}}}`);// getrooms(`/graphql?query=query{rooms{id, title,capacity,floor}}`);
             
-        eventpromise.then(function(data){            
+        eventpromise.then(function(data){                    
             $scope.events = data.data.data.events.filter(function(evnt){
                 return ((Date.parse(evnt.dateStart) >= $scope.startOfDay) && (Date.parse(evnt.dateStart) <= $scope.endOfDay));
             });
@@ -81,7 +92,7 @@ function process($scope,$http){
 
 
                 roomEvents.forEach(function(event,i,arr){
-                    var prevEvent = roomEvents[i-1];
+                    var prevEvent = roomEvents[i-1];                    
                     if(prevEvent != null)
                     {
                         var emptySlot = {};
@@ -149,11 +160,6 @@ var months = [
 ];
 
 
-function eventController($scope,$sharedService){
-}
-
-
-
 
 
 function compare(e1,e2)
@@ -165,13 +171,7 @@ function compare(e1,e2)
     return 0;
 }
 
-// mainController.$inject = ['$scope', 'dataService'];        
 
-// eventController.$inject = ['$scope', 'dataService'];
-
-
-
-// Declare app level module which depends on views, and components
 // var YandexRooms = angular.module('YandexRooms', [
 //   'ngRoute',
 //   'YandexRooms.mainView',
@@ -199,64 +199,115 @@ function compare(e1,e2)
 // .config(function($locationProvider){
 //     $locationProvider.html5Mode(true);
 // });
-// function eventController($scope, $http,$location,$routeParams) {    
-    
-//     $scope.formData = {};
-//     $scope.content = null;
 
-//     $scope.deleteEvent = function(eventId){
+function formatDate(dateString,formatString)
+{
+    var date = new Date(dateString);
+    if(formatString == "HH:mm")
+    {
+        var hoursStr =  ('0' + date.getHours()).slice(-2);
+        var minutesStr =  ('0' + date.getMinutes()).slice(-2);
+        return hoursStr + ":" + minutesStr;
+    }
+    if(formatString == "dd.MM.yyyy")
+    {
+        return date.getDate() + " " + months[date.getMonth()] + ", " + date.getFullYear(); 
+    }
 
-//         var xhr = new XMLHttpRequest();
-//         xhr.responseType = 'json';
-//         xhr.open("POST", "/graphql");
-//         xhr.setRequestHeader("Content-Type", "application/json");
-//         xhr.setRequestHeader("Accept", "application/json");
-//         xhr.onload = function () {
-//           console.log('data returned:', xhr.response);
-//         }
-
-//         var querystr = 'mutation{removeEvent(id:'+eventId+'){id}}';
-//         var s = JSON.stringify({query:querystr});
-//         xhr.send(s);
-//     };
-
-//     $scope.updateEvent = function(){
-
-//         var xhr = new XMLHttpRequest();
-//         xhr.responseType = 'json';
-//         xhr.open("POST", "/graphql");
-//         xhr.setRequestHeader("Content-Type", "application/json");
-//         xhr.setRequestHeader("Accept", "application/json");
-//         xhr.onload = function () {
-//           console.log('data returned:', xhr.response);
-//         }
-
-//         var querystr = `mutation{updateEvent(id:${$scope.formData.eventId}){id}}`;
-//         var s = JSON.stringify({query:querystr});
-//         xhr.send(s);
-//     };
-
-//     $scope.showDetails = function(eventId){
-//         $http.get('/getDetails')
-//             .success(function (response) {
-//                 console.log(response);
-
-//                 $scope.content = response; 
-//         });
-//         var xhr = new XMLHttpRequest();
-//         xhr.responseType = 'json';
-//         xhr.open("POST", "/graphql");
-//         xhr.setRequestHeader("Content-Type", "application/json");
-//         xhr.setRequestHeader("Accept", "application/json");
-//         xhr.onload = function () {
+        
+}
+YRoomsApp.controller("eventController", function eventController($scope, $http,$location,$routeParams) {    
+        
+        $scope.formData = {};
+        $scope.content = null;
+        if($routeParams.eventId == undefined)
+        {            
+            $scope.caption = "Новая встреча";       
             
-//             $scope.title = xhr.response.data.event.room.title;
-//             console.log(xhr.response.data.event.room.title);
-                    
-//         }
+        }
+        else
+        {
+            $scope.caption = "Редактирование встречи";   
+            console.log(`/graphql?query=query{event(id${$routeParams.eventId}){title, dateStart,dateEnd,users{login},room{title}}}`);  
+            var eventpromise =  $http.get(`/graphql?query=query{event(id${$routeParams.eventId}){title, dateStart,dateEnd,users{login},room{title}}}`);
+    
+            eventpromise.then(function(data){
+                console.log(data);
+                $scope.eventData = data.data.data.event;                
 
-//         var querystr = `query{event(id:${eventId}){id, title, dateStart, dateEnd, users{login}, room{title}}}`;
-//         var s = JSON.stringify({query:querystr});
-//         xhr.send(s);
-//     };
-// }
+                
+                $scope.eventData.timeStart = formatDate($scope.eventData.dateStart,"HH:mm");                
+                $scope.eventData.timeEnd =formatDate($scope.eventData.dateEnd,"HH:mm");
+                $scope.eventData.eventDate = formatDate($scope.eventData.dateStart,"dd.MM.yyyy");
+                
+            })     
+        }
+
+
+        var userpromise = $http.get(`/graphql?query=query{users{login,avatarUrl}}`);
+
+        userpromise.then(function(data){            
+            $scope.users = data.data.data.users;            
+        }) 
+
+        $scope.go = function(path){   
+            $location.path(path);
+        };
+
+        $scope.deleteEvent = function(eventId){
+
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'json';
+            xhr.open("POST", "/graphql");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.onload = function () {
+              console.log('data returned:', xhr.response);
+            }
+
+            var querystr = 'mutation{removeEvent(id:'+eventId+'){id}}';
+            var s = JSON.stringify({query:querystr});
+            xhr.send(s);
+        };
+
+        $scope.updateEvent = function(){
+
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'json';
+            xhr.open("POST", "/graphql");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.onload = function () {
+              console.log('data returned:', xhr.response);
+            }
+
+            var querystr = `mutation{updateEvent(id:${$scope.formData.eventId}){id}}`;
+            var s = JSON.stringify({query:querystr});
+            xhr.send(s);
+        };
+
+        $scope.showDetails = function(eventId){
+            $http.get('/getDetails')
+                .success(function (response) {
+                    console.log(response);
+
+                    $scope.content = response; 
+            });
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'json';
+            xhr.open("POST", "/graphql");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.onload = function () {
+                
+                $scope.title = xhr.response.data.event.room.title;
+                console.log(xhr.response.data.event.room.title);
+                        
+            }
+
+            var querystr = `query{event(id:${eventId}){id, title, dateStart, dateEnd, users{login}, room{title}}}`;
+            var s = JSON.stringify({query:querystr});
+            xhr.send(s);
+        };
+    }
+)

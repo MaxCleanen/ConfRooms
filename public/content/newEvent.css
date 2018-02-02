@@ -76,15 +76,7 @@
 		background: #E9ECEF;
 		border-radius: 100px;
 	}
-	.pen
-	{
-		background: rgba(0,0,0,0.43);
-	}
-	.pen:hover
-	{
-		background: #000000;
-	}
-
+	
 
 	/*.emptyslot
 	{
