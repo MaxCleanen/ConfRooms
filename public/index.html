@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="YRooms">
+<html ng-app="YRoomsApp">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script> -->
 
     <script src="/scripts/core.js"></script>
@@ -307,9 +307,9 @@
 					</svg>
 				</div>
 			</div>
-			<div class="currentTime" style="left:{{245+((currentDate-startOfDay)/60000*1072/960)}}px;line-height: 20px; font-family: HelveticaNeue-Bold;font-size: 11px;color: #FFFFFF;letter-spacing: 0.4px;">
+			<div class="currentTime" style="left:{{245+((currentTime-startOfDay)/60000*1072/960)}}px;line-height: 20px; font-family: HelveticaNeue-Bold;font-size: 11px;color: #FFFFFF;letter-spacing: 0.4px;">
 				<span style="display: inline-block;vertical-align: middle;line-height: normal">
-					{{('0' + currentDate.getHours()).slice(-2)+':'+('0' + currentDate.getMinutes()).slice(-2)}}
+					{{currentTimeFormatted}}
 				</span>			
 			</div>			
 			<div ng-repeat="h in getNumber()" class="timeLine" style="text-align: center;">{{h}}</div>	
@@ -385,7 +385,7 @@
 			</div>
 		</div>
 	</div>
-
+<!-- 
 
 	<div ng-controller="eventController">
 		<div class="heading">
@@ -440,7 +440,7 @@
 							{{user.login}}
 							<div class="closeImage">
 								<svg width="9px" height="9px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-							    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+							    
 							    <title>close</title>
 							    <desc>Created with Sketch.</desc>
 							    <defs></defs>
@@ -465,8 +465,7 @@
 							<label for="">{{roomTitle}}</label>	
 						</div>
 						<div style="width:16px;height:16px;margin:0 12px;">						
-								<svg style="display: block; height:16px; margin:auto;" width="9px" height="9px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-							    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+								<svg style="display: block; height:16px; margin:auto;" width="9px" height="9px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">							    
 							    <title>close</title>
 							    <desc>Created with Sketch.</desc>
 							    <defs></defs>
@@ -504,8 +503,7 @@
 					<button class="cancel" style="width:80">Отмена</button>
 					<button class="cancel deleteD" id="deleteBtn" ng-click="deleteEvent(eventId)" style="width:140">Удалить встречу</button>
 					<button class="cancel saveD" id="saveBtn" ng-click="updateEvent()" style="width:101">Сохранить</button>	
-				</div>			
-				<!-- <button class="createEvent">Создать встречу</button> -->
+				</div>							
 			</div>		
 			</div>
 			<div id="myModal" class="modal">
@@ -543,12 +541,12 @@
 
 	</div>
 
-	
+	 -->
 	
 
 
 </body>
-<script>
+<!-- <script>
 
 	// Get the modal
 	var deletemodal = document.getElementById('myModal');
@@ -585,6 +583,6 @@
 	        deletemodal.style.display = "none";
 	    }
 	}
-</script>
+</script> -->
 </html>
 
