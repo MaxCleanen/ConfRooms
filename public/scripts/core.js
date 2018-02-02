@@ -1,25 +1,24 @@
+var YRoomsApp = angular.module('YRoomsApp',[]);
 
 
-var YRooms = angular.module('YRooms',[]);
+YRoomsApp.controller("mainController", function mainController($scope,$http,$q, $interval){
+    
+    $interval(function(){
+        $scope.currentTime = new Date();
 
-YRooms.factory('YRoomSharedService', function($rootScope) {
-  var sharedService = {};
+        if($scope.currentTime.getSeconds()%2 ==0 )
+            $scope.currentTimeFormatted = ('0' + $scope.currentTime.getHours()).slice(-2)+':'+('0' + $scope.currentTime.getMinutes()).slice(-2);
+        else
+            $scope.currentTimeFormatted = ('0' + $scope.currentTime.getHours()).slice(-2)+' '+('0' + $scope.currentTime.getMinutes()).slice(-2);
+    },1000);
 
-  sharedService.message = '';
 
-  sharedService.prepForBroadcast = function(msg) {
-    this.message = msg;
-    this.broadcastItem();
-  };
+    $scope.currentDate = new Date();    
+    $scope.monthName = months[$scope.currentDate.getMonth()];    
+    process($scope,$http);
+    
+    
 
-  sharedService.broadcastItem = function() {
-    $rootScope.$broadcast('handleBroadcast');
-  };
-
-  return sharedService;
-});
-
-function mainController($scope,$sharedService){
     $scope.changedate = function(i)
     {
         if(i==-1)
@@ -31,136 +30,108 @@ function mainController($scope,$sharedService){
             $scope.currentDate.setDate($scope.currentDate.getDate()+1);
         }
         $scope.monthName = months[$scope.currentDate.getMonth()];
-        process($scope);
+        process($scope,$http);
     }
     $scope.createEventFromScratch = function(){        
     };
-    $scope.createEvent = function(dateStart,dateEnd){
-        
+    $scope.createEvent = function(dateStart,dateEnd){        
     };
-
-    $scope.editEvent = function(eventId){
-        
-    };
-    
+    $scope.editEvent = function(eventId){       
+    };    
     $scope.getNumber = function(){        
         return [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
     }
-
-    $scope.currentDate = new Date();    
-    $scope.monthName = months[$scope.currentDate.getMonth()];    
-
-
-
-    process($scope);   
+})
+function setTime()
+{
 
 }
 
-function process($scope){    
-    
-    console.log($scope.currentDate);
+function process($scope,$http){    
     $scope.startOfDay = new Date($scope.currentDate.getFullYear(),$scope.currentDate.getMonth(),$scope.currentDate.getDate(), 8,0,0,0);    
-    console.log($scope.startOfDay);
-    $scope.endOfDay = new Date($scope.currentDate.getFullYear(),$scope.currentDate.getMonth(),$scope.currentDate.getDate(), 23,59,59,999);    
-    console.log($scope.endOfDay);
+    $scope.endOfDay = new Date($scope.currentDate.getFullYear(),$scope.currentDate.getMonth(),$scope.currentDate.getDate(), 23,59,59,999);            
+    
+    var roompromise =  $http.get(`/graphql?query=query{rooms{id, title,capacity,floor}}`);// getrooms(`/graphql?query=query{rooms{id, title,capacity,floor}}`);
+    
+    roompromise.then(function(data){
+        $scope.rooms = data.data.data.rooms;
 
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.open("POST", "/graphql");
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.onload = function () {
-        
-        $scope.rooms = xhr.response.data.rooms;
+        var eventpromise =  $http.get(`/graphql?query=query{events{id, title, dateStart,dateEnd,users{login},room{id,title}}}`);// getrooms(`/graphql?query=query{rooms{id, title,capacity,floor}}`);
+            
+        eventpromise.then(function(data){            
+            $scope.events = data.data.data.events.filter(function(evnt){
+                return ((Date.parse(evnt.dateStart) >= $scope.startOfDay) && (Date.parse(evnt.dateStart) <= $scope.endOfDay));
+            });
 
+            $scope.rooms.map(function(room){
+                var roomEvents = [];
+                $scope.events.forEach(function(event,i,arr){
+                    if(event.room.id == room.id)
+                    {
+                        event.dateStart = new Date(event.dateStart);
+                        event.dateEnd = new Date(event.dateEnd);
+                        event.occupied = true;
+                        roomEvents.push(event);                            
+                    }
+                });
+                roomEvents.sort(compare);
+                room.events = roomEvents;
 
-        xhr = new XMLHttpRequest();
-        xhr.responseType = 'json';
-        xhr.open("POST", "/graphql");
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.onload = function () {
-            $scope.$apply(function(){
-                $scope.events = xhr.response.data.events;
-
-                $scope.events = $scope.events.filter(function(evnt){
-                    return ((Date.parse(evnt.dateStart) >= $scope.startOfDay) && (Date.parse(evnt.dateStart) <= $scope.endOfDay));
-                })
-
-                
-
-                $scope.rooms.map(function(room){
-                    var roomEvents = [];
-                    $scope.events.forEach(function(event,i,arr){
-                        if(event.room.id == room.id)
-                        {
-                            event.dateStart = new Date(event.dateStart);
-                            event.dateEnd = new Date(event.dateEnd);
-                            event.occupied = true;
-                            roomEvents.push(event);                            
-                        }
-                    });
-                    roomEvents.sort(compare);
-                    room.events = roomEvents;
-
-                    room.timeslots = [];
+                room.timeslots = [];
 
 
-                    roomEvents.forEach(function(event,i,arr){
-                        var prevEvent = roomEvents[i-1];
-                        if(prevEvent != null)
-                        {
+                roomEvents.forEach(function(event,i,arr){
+                    var prevEvent = roomEvents[i-1];
+                    if(prevEvent != null)
+                    {
+                        var emptySlot = {};
+                        emptySlot.dateStart = prevEvent.dateEnd;
+                        emptySlot.dateEnd = event.dateStart;
+                        emptySlot.occupied = false;
+                        room.timeslots.push(emptySlot);
+                    }
+                    else
+                    {
+                        //Заполняем промежутки между событиями пустыми слотами
+                        if(event.dateStart > $scope.startOfDay)
+                        {                            
                             var emptySlot = {};
-                            emptySlot.dateStart = prevEvent.dateEnd;
+                            emptySlot.dateStart = $scope.startOfDay;
                             emptySlot.dateEnd = event.dateStart;
                             emptySlot.occupied = false;
                             room.timeslots.push(emptySlot);
                         }
-                        else
-                        {
-                            //Заполняем промежутки между событиями пустыми слотами
-                            if(event.dateStart > $scope.startOfDay)
-                            {                            
-                                var emptySlot = {};
-                                emptySlot.dateStart = $scope.startOfDay;
-                                emptySlot.dateEnd = event.dateStart;
-                                emptySlot.occupied = false;
-                                room.timeslots.push(emptySlot);
-                            }
-                        }                        
-                        
-                        room.timeslots.push(event);
+                    }                        
+                    
+                    room.timeslots.push(event);
 
-                        if(i == roomEvents.length-1 && event.dateEnd <$scope.endOfDay)
-                        {
-                            var emptySlot = {};
-                            emptySlot.dateStart = event.dateEnd;
-                            emptySlot.dateEnd = $scope.endOfDay;
-                            emptySlot.occupied = false;
-                            room.timeslots.push(emptySlot);
-                        }
-                    });
-                    if(roomEvents.length == 0)
+                    if(i == roomEvents.length-1 && event.dateEnd <$scope.endOfDay)
                     {
                         var emptySlot = {};
-                        emptySlot.dateStart = $scope.startOfDay;
+                        emptySlot.dateStart = event.dateEnd;
                         emptySlot.dateEnd = $scope.endOfDay;
                         emptySlot.occupied = false;
                         room.timeslots.push(emptySlot);
                     }
-                });//map end
-
-                console.log($scope.rooms);
+                });
+                if(roomEvents.length == 0)
+                {
+                    var emptySlot = {};
+                    emptySlot.dateStart = $scope.startOfDay;
+                    emptySlot.dateEnd = $scope.endOfDay;
+                    emptySlot.occupied = false;
+                    room.timeslots.push(emptySlot);
+                }
             });
-        }
-        var querystr = `query{events{id, title, dateStart,dateEnd,users{login},room{id,title}}}`;
-        var s = JSON.stringify({query:querystr});
-        xhr.send(s); 
+            $scope.apply();
+        })
+
+    })
+
+
+    
+   
         
-    }
-    var querystr = `query{rooms{id, title,capacity,floor}}`;
-    var s = JSON.stringify({query:querystr});
-    xhr.send(s); 
 }
 
 var months = [
@@ -195,9 +166,9 @@ function compare(e1,e2)
     return 0;
 }
 
-mainController.$inject = ['$scope', 'YRoomSharedService'];        
+// mainController.$inject = ['$scope', 'dataService'];        
 
-eventController.$inject = ['$scope', 'YRoomSharedService'];
+// eventController.$inject = ['$scope', 'dataService'];
 
 
 
