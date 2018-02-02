@@ -99,6 +99,10 @@
 			border-style: solid;
 			border-color: transparent transparent white transparent;
 		}
+		.eventToolTip:hover 
+		{
+			visibility: visible;
+		}
 
 		.free
 		{
@@ -355,23 +359,26 @@
 											    </g>
 											</svg>
 										</div>
-									</div>
-									
+									</div>									
 									<br>
 
 									<label style="font-family: HelveticaNeue;font-size: 13px;color: #000000;letter-spacing: 0;line-height: 17px;" for="">										
 										{{('0' + e.dateStart.getHours()).slice(-2)+':' + ('0' + e.dateStart.getMinutes()).slice(-2)+'—'+('0' + e.dateEnd.getHours()).slice(-2)+':' + ('0' + e.dateEnd.getMinutes()).slice(-2)}}
 										  
-									</label><br>
-									
-									<img class="avatar" src="./images/john-lennon-24px.jpeg" alt="">
+									</label><br>									
+
+									<img class="avatar" src="{{e.users[0].avatarUrl}}" alt="">
 									
 									<label style="font-family: Helvetica;font-size: 13px;color: #000000;letter-spacing: 0;line-height: 17px;" for="">
 										{{e.users[0].login}}
 									</label>
-									<label style="font-family: Helvetica;font-size: 13px;color: #37003E;letter-spacing: 0;line-height: 17px;"for="">
+									
+									<div ng-if="e.users.length>1">
+										<label style="font-family: Helvetica;font-size: 13px;color: #37003E;letter-spacing: 0;line-height: 17px;"for="">
 										 и {{e.users.length-1}} участников
-									</label>
+										</label>	
+									</div>
+									
 								</div>
 							</div>		
 						</div>
