@@ -56,7 +56,7 @@ function process($scope,$http){
     roompromise.then(function(data){
         $scope.rooms = data.data.data.rooms;
 
-        var eventpromise =  $http.get(`/graphql?query=query{events{id, title, dateStart,dateEnd,users{login},room{id,title}}}`);// getrooms(`/graphql?query=query{rooms{id, title,capacity,floor}}`);
+        var eventpromise =  $http.get(`/graphql?query=query{events{id, title, dateStart,dateEnd,users{login,avatarUrl},room{id,title}}}`);// getrooms(`/graphql?query=query{rooms{id, title,capacity,floor}}`);
             
         eventpromise.then(function(data){            
             $scope.events = data.data.data.events.filter(function(evnt){
@@ -122,8 +122,7 @@ function process($scope,$http){
                     emptySlot.occupied = false;
                     room.timeslots.push(emptySlot);
                 }
-            });
-            $scope.apply();
+            });          
         })
 
     })
