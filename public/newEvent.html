@@ -279,7 +279,7 @@ label.captionFont
 </body> -->
 <div ng-controller="eventController">
 	<div class="heading">
-		<img src="/logo.svg">
+		<img src="./images/graphics/logo.svg">
 	</div>
 	<div class="content">
 		<div class="header">			
@@ -287,7 +287,7 @@ label.captionFont
 				{{caption}}
 			</label>			
 			<div class="bigCloseImage">
-				<img src="/close.svg" style="height:18px; padding:3px">	
+				<img src="./images/graphics/close.svg" style="height:18px; padding:3px">	
 			</div>
 		</div>
 		<div class="title">
@@ -303,7 +303,7 @@ label.captionFont
 			<div class="dateTimeLabelsM ">
 				<label class="captionFont">Дата и время</label>
 			</div>
-			<div >
+			<div>
 				<input style="display: inline-block;" class="date" value="{{eventData.eventDate}}"></input>
 				<input style="display: inline-block;" class="time" value="{{eventData.timeStart}}"></input>
 				<label style="vertical-align: middle; width:14px; font-family: HelveticaNeue-Bold; font-size: 13px;color: #000000;letter-spacing: 0.47px;">—</label>
@@ -312,21 +312,14 @@ label.captionFont
 		</div>
 		<div>
 			<div class="users">
-				<label class="captionFont">Участники</label>			
-				<input type="text" list="languages" style="display:block" id="users" placeholder="Например, Тор Одинович">
-				<label for="languages">
-				  <datalist id="languages">
-				    <select>
-				      <option ng-repeat="user in users" value="{{user.login}}">				      
-				      {{user.login}}
-				      </option>				      
-				    </select>
-				  </datalist>
-				</label>
+				<label class="captionFont">Участники</label>
 
+			    <select ng-model="selectedUser" style="display:block" ng-change="userSelected()" ng-options="y.login for (x,y) in users">
+			    </select>
+				
 				<div class="participants-container">
 					<div class="participant" ng-repeat="user in eventData.users">
-						<img class="avatar" src="/close.svg" style="height:100%; width:24px; margin-right: 8px;">
+						<img class="avatar" ng-src="{{user.avatarUrl}}" style="height:100%; width:24px; margin-right: 8px;">
 						{{user.login}}
 						<div class="closeImage">
 							<svg width="9px" height="9px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -390,7 +383,7 @@ label.captionFont
 			<div>
 				<button class="cancel" ng-click="go('/main')" style="width:80">Отмена</button>
 				<button class="cancel deleteD" id="deleteBtn" ng-click="deleteEvent(eventId)" style="width:140">Удалить встречу</button>
-				<button class="cancel saveD" id="saveBtn"  style="width:101">Сохранить</button>	
+				<button class="cancel saveD" id="saveBtn" ng-click="saveChanges()"  style="width:101">Сохранить</button>	
 			</div>			
 			<!-- <button class="createEvent">Создать встречу</button> -->
 		</div>		
@@ -399,7 +392,7 @@ label.captionFont
 			
 			<div class="modal-content">		    
 				<div style="height:40px; width:40px; padding:32px 202px 16px 202px;">
-					<img src="/emoji1.svg" style="height:28px; width:39px;">	
+					<img src="./images/graphics/emoji1.svg" style="height:28px; width:39px;">	
 				</div>
 							
 				<label style="width:320px; display: block;margin: auto;font-family: HelveticaNeue-Bold;font-size: 20px;color: #000000;letter-spacing: 0;line-height: 24px; text-align: center">
@@ -414,7 +407,7 @@ label.captionFont
 		<div class="modal" id="saveModal">
 			<div class="eventCreatedModal-content">
 				<div style="height:40px; width:40px; padding:32px 202px 16px 202px;">
-					<img src="/emoji2.svg" style="height:28px; width:39px;">	
+					<img src="./images/graphics/emoji2.svg" style="height:28px; width:39px;">	
 				</div>
 							
 				<label style="width:320px; display: block;margin: auto;font-family: HelveticaNeue-Bold;font-size: 20px;color: #000000;letter-spacing: 0;line-height: 24px; text-align: center">

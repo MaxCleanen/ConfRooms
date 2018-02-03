@@ -30,8 +30,7 @@ YRoomsApp.controller("mainController", function mainController($scope,$http,$q, 
     $scope.currentDate = new Date();    
     $scope.monthName = months[$scope.currentDate.getMonth()];    
     process($scope,$http);
-    
-    
+
 
     $scope.changedate = function(i)
     {
@@ -219,20 +218,21 @@ function formatDate(dateString,formatString)
 YRoomsApp.controller("eventController", function eventController($scope, $http,$location,$routeParams) {    
         
         $scope.formData = {};
-        $scope.content = null;
+        $scope.eventData = {}
+
         if($routeParams.eventId == undefined)
         {            
-            $scope.caption = "Новая встреча";       
-            
+            $scope.caption = "Новая встреча";
+            $scope.eventData.eventDate = formatDate(new Date(), "dd.MM.yyyy");
         }
         else
         {
             $scope.caption = "Редактирование встречи";   
-            console.log(`/graphql?query=query{event(id${$routeParams.eventId}){title, dateStart,dateEnd,users{login},room{title}}}`);  
+            
             var eventpromise =  $http.get(`/graphql?query=query{event(id${$routeParams.eventId}){title, dateStart,dateEnd,users{login},room{title}}}`);
     
             eventpromise.then(function(data){
-                console.log(data);
+                
                 $scope.eventData = data.data.data.event;                
 
                 
@@ -244,16 +244,35 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
         }
 
 
-        var userpromise = $http.get(`/graphql?query=query{users{login,avatarUrl}}`);
+        var userpromise = $http.get(`/graphql?query=query{users{id,login,avatarUrl}}`);
 
         userpromise.then(function(data){            
             $scope.users = data.data.data.users;            
+            console.log($scope.users);
         }) 
+
+
 
         $scope.go = function(path){   
             $location.path(path);
         };
+        $scope.userSelected = function(){
+            //$scope.$apply(function(){
+                if($scope.eventData.users == undefined)
+                {
+                    $scope.eventData.users=[];   
+                }
 
+                if(!$scope.eventData.users.includes($scope.selectedUser))
+                {
+                    $scope.eventData.users.push($scope.selectedUser);    
+                }
+                
+
+                $scope.selectedUser = null;
+            //})
+            
+        }
         $scope.deleteEvent = function(eventId){
 
             var xhr = new XMLHttpRequest();
@@ -270,7 +289,7 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
             xhr.send(s);
         };
 
-        $scope.updateEvent = function(){
+        $scope.saveChanges = function(){
 
             var xhr = new XMLHttpRequest();
             xhr.responseType = 'json';
