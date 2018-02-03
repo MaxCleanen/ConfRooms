@@ -1,282 +1,3 @@
-<!-- <!DOCTYPE html>
-<html ng-app="YRoomsApp">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width">
-	
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-    <script src="/scripts/core.js"></script>
-
-	<link rel="stylesheet" type="text/css" href="/content/desktop.css" media="(min-device-width:361px)">
-	<link rel="stylesheet" type="text/css" href="/content/mobile.css" media="(max-device-width:360px)">
-
-	<link rel="stylesheet" type="text/css" href="/content/styleMobile.css" media="(max-device-width:360px)">
-	<link rel="stylesheet" type="text/css" href="/content/styleDesktop.css" media="(min-device-width:361px)">
-	
-	<style>
-	@font-face{
-		font-family: HelveticaNeue;
-		src: url(/fonts/HelveticaNeue.ttf);				
-	}
-	@font-face{
-		font-family: HelveticaNeue-Bold;
-		src: url(/fonts/HelveticaNeueBold.ttf);				
-		font-weight: bold;
-	}
-	@font-face{
-		font-family: HelveticaNeue-Medium;
-		src: url(/fonts/HelveticaNeue-Medium.ttf);				
-		font-weight: bold;
-	}
-
-    select {
-      width: 12em;
-      margin: 0;
-      margin-left: -12.75em;
-    }
-
-
-	.room-normal
-	{
-		font-family: HelveticaNeue-Medium;
-		font-size: 15px;
-		color: #000000;
-		line-height: 17px;
-	}
-	.r2{
-		font-family: HelveticaNeue;
-		font-size: 13px;
-		color: #000000;
-		line-height: 17px;
-	}
-	.room-normal:hover
-	{
-		color: #0070E0;
-	}
-	.room-normal:visited
-	{
-		color: #1D54FE;
-	}
-	.user-label{
-		background: #E9ECEF;
-		border-radius: 16px;
-	}
-	.user-label:hover
-	{
-		background: ##E9ECEF;
-		border-radius: 16px;
-	}
-	.pen-cloud
-	{
-		background: #E9ECEF;
-		border-radius: 100px;
-	}
-	.pen
-	{
-		background: rgba(0,0,0,0.43);
-	}
-	.pen:hover
-	{
-		background: #000000;
-	}
-
-
-	/*.emptyslot
-	{
-		background: #E9ECEF;
-	}*/
-	.emptyslot{
-		background: #FFFFFF;
-	}
-	.emptyslot:hover
-	{
-		background: #98A9B9;
-		content:"+";
-		color:white;
-	}
-	.emptyslot:visited
-	{
-		background: #98A9B9;
-		background: rgba(0,0,0,0.12);
-		content:"+";
-		color:white;
-
-	}
-	button.createEvent
-	{
-		background: #007DFF;
-		border-radius: 4px;
-		height: 36px;
-		width:140px;
-		font-family: HelveticaNeue-Medium;
-		font-size: 13px;
-		color: #FFFFFF;
-		letter-spacing: 0;
-	}
-	button.createEvent:hover
-	{
-		background: #007DFF;
-		background: #0059FF;
-	}
-	button.createEvent:active
-	{
-		background: rgba(11,0,255,0.80);
-		background: #0059FF;
-	}
-	
-	input
-	{
-		background: #FFFFFF;
-		border: 2px solid #E9ECEF;
-		border-radius: 4px;		
-		width:100%;
-		height: 38px;
-		padding-left:10px;
-		font-family: HelveticaNeue;
-		font-size: 13px;
-		color: #858E98;
-		letter-spacing: 0.47px;
-		box-sizing: border-box;
-	}
-	
-	button.cancel
-	{
-		border: none;
-		background: #E9ECEF;
-		border-radius: 4px;		
-		height:36px;	
-
-		margin: 0 8px;
-		
-		font-family: HelveticaNeue-Medium;
-		font-size: 13px;
-		color: #000000;
-		letter-spacing: 0;
-	}
-button.cancel:hover
-{
-	
-	background: #E9ECEF;
-	background: rgba(0,16,33,0.05);
-}
-button.cancel:hover
-	{
-		background: #E9ECEF;
-		background: rgba(4,29,56,0.14);
-}
-
-button.cancel:disabled
-{
-	background: #E2E5E8;
-	color: rgba(0,0,0,0.20);
-}
-.heading
-{	
-	background: #FFFFFF;
-	box-shadow: 0 1px 0 0 #E9ECEF;
-	padding: 25px 0 21.6px 24.6px;
-}
-
-
-
-.pageHeader
-{
-	font-family: HelveticaNeue-Bold;
-	font-size: 20px;
-	color: #000000;
-	letter-spacing: 0; 
-	
-}
-.room
-{
-	background: #E9ECEF;
-	border-radius: 4px;	
-	min-height:37px;
-	margin-bottom: 8px;
-	box-sizing: border-box;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-left: 10px;
-
-	align-items: center;
-	display: flex;
-}
-.currentRoom
-{
-	background: #007DFF;	
-	color:white;
-}
-.recommendedRoom
-{
-	background: #E9ECEF;	
-}
-.participants-container
-{
-	/*border-color: black;
-	border-width: 1px; 
-	border-style: solid; */ 
-}
-.participant
-{
-	background: #E9ECEF;
-	border-radius: 16px;
-	margin-bottom:4px;
-	margin-top:4px;
-	font-family: HelveticaNeue;
-	font-size: 13px;
-	color: #000000;
-	letter-spacing: 0;
-	line-height: 17px;
-}
-
-.closeImage
-{
-	margin-left:12px;	
-	margin-right:8px;		
-}
-.closeImageSVG
-{
-	fill: #AFB4B8;	
-}
-.closeImageSVG:hover
-{
-	fill: #000000;	
-}
-div.currentRoom .closeImageSVG
-{
-	fill: white;	
-}
-.avatar
-{
-	color: #AFB4B8;
-	margin-right:8px;		
-	border-radius: 16px;
-}
-
-label.captionFont
-{
-	font-family: HelveticaNeue-Bold;
-	font-size: 13px;
-	color: #000000;
-	letter-spacing: 0;
-	margin-bottom: 4px;
-}
-
-.bigCloseImage
-{
-	width:24px;height:24px;background: #E9ECEF; border-radius: 100px; float: right
-}
-
-</style>
-
-
-
-<title></title>
-</head>
-<body>
-	
-</body> -->
 <div ng-controller="eventController">
 	<div class="heading">
 		<img src="./images/graphics/logo.svg">
@@ -286,8 +7,24 @@ label.captionFont
 			<label class="pageHeader">
 				{{caption}}
 			</label>			
-			<div class="bigCloseImage">
-				<img src="./images/graphics/close.svg" style="height:18px; padding:3px">	
+			<div class="bigCloseImage" ng-click="go('/main')">
+				<!-- <img src="./images/graphics/close.svg" style="height:18px; padding:3px">	 -->
+				<svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+				    <title>close</title>
+				    <desc>Created with Sketch.</desc>
+				    <defs></defs>
+				    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+				        <g id="Новая-встреча" transform="translate(-325.000000, -306.000000)">
+				            <g id="человек3" transform="translate(204.000000, 299.000000)">
+				                <g id="close" transform="translate(118.000000, 4.000000)">
+				                    <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
+				                    <path id="crossSVG" d="M8.02081528,6.62132034 L5.19238816,3.79289322 C4.80186386,3.40236893 4.16869888,3.40236893 3.77817459,3.79289322 L3.77817459,3.79289322 L3.77817459,3.79289322 C3.3876503,4.18341751 3.3876503,4.81658249 3.77817459,5.20710678 L3.77817459,5.20710678 L6.60660172,8.03553391 L3.77817459,10.863961 C3.3876503,11.2544853 3.3876503,11.8876503 3.77817459,12.2781746 L3.77817459,12.2781746 L3.77817459,12.2781746 C4.16869888,12.6686989 4.80186386,12.6686989 5.19238816,12.2781746 L5.19238816,12.2781746 L8.02081528,9.44974747 L10.8492424,12.2781746 C11.2397667,12.6686989 11.8729317,12.6686989 12.263456,12.2781746 C12.6539803,11.8876503 12.6539803,11.2544853 12.263456,10.863961 L9.43502884,8.03553391 L12.263456,5.20710678 C12.6539803,4.81658249 12.6539803,4.18341751 12.263456,3.79289322 C11.8729317,3.40236893 11.2397667,3.40236893 10.8492424,3.79289322 L8.02081528,6.62132034 Z" id="Combined-Shape" fill="#AFB4B8"></path>
+				                </g>
+				            </g>
+				        </g>
+				    </g>
+				</svg>
 			</div>
 		</div>
 		<div class="title">
@@ -314,14 +51,14 @@ label.captionFont
 			<div class="users">
 				<label class="captionFont">Участники</label>
 
-			    <select ng-model="selectedUser" style="display:block" ng-change="userSelected()" ng-options="y.login for (x,y) in users">
+			    <select ng-model="selectedUser" style="display:block;height:38px" ng-change="userSelected()" ng-options="y.login for (x,y) in users">
 			    </select>
 				
 				<div class="participants-container">
 					<div class="participant" ng-repeat="user in eventData.users">
 						<img class="avatar" ng-src="{{user.avatarUrl}}" style="height:100%; width:24px; margin-right: 8px;">
 						{{user.login}}
-						<div class="closeImage">
+						<div class="closeImage" ng-click="deleteUser(user)">
 							<svg width="9px" height="9px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 						    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
 						    <title>close</title>
@@ -341,13 +78,18 @@ label.captionFont
 					</div>					
 				</div>
 			</div>
-			<div class="roomsPart">		
-				<label class="captionFont" style="padding-bottom: 5px">Ваша переговорка</label>
-				<div class="room currentRoom" style="margin-top:3px">
-					<div class="roomDescription" style="word-wrap: break-word;">
-						<label for="">{{eventData.room.title}}</label>	
-					</div>
-					<div style="width:16px;height:16px;margin:0 12px;">						
+			<div class="roomsPart">	
+				<div ng-if="eventData.room != null">
+					<label class="captionFont" style="padding-bottom: 5px">Ваша переговорка</label>
+					<div class="eroom currentRoom" style="margin-top:3px">
+						<div class="roomDescription" style="word-wrap: break-word;">
+							<label style="font-family: HelveticaNeue-Bold">
+								{{eventData.timeStart}}—{{eventData.timeEnd}} </label>	
+							<label style="font-family: HelveticaNeue">
+								{{eventData.room.title}} · {{eventData.room.floor}} этаж
+							</label>
+						</div>
+						<div style="width:16px;height:16px;margin:0 12px;">						
 							<svg style="display: block; height:16px; margin:auto;" width="9px" height="9px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 						    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
 						    <title>close</title>
@@ -363,10 +105,15 @@ label.captionFont
 						            </g>
 						        </g>
 						    </g>
-						
+							
+						</div>
 					</div>
+				</div>	
+				<div ng-if="eventData.room == null">
+					<label class="captionFont" style="padding-bottom: 5px">Рекомендуемые переговорки</label>
+					<div ng-repeat="room in rooms" class="eroom recommendedRoom">{{room.title}} · {{room.floor}} этаж</div>	
 				</div>
-				<div class="room recommendedRoom">2</div>			
+				
 			</div>		
 		</div>
 		
@@ -382,8 +129,12 @@ label.captionFont
 			<div style="display: flex; justify-content: center; padding-bottom: 20px; padding-top: 20px">
 			<div>
 				<button class="cancel" ng-click="go('/main')" style="width:80">Отмена</button>
-				<button class="cancel deleteD" id="deleteBtn" ng-click="deleteEvent(eventId)" style="width:140">Удалить встречу</button>
-				<button class="cancel saveD" id="saveBtn" ng-click="saveChanges()"  style="width:101">Сохранить</button>	
+
+
+				<button ng-if="eventData.room != null" class="cancel deleteD" id="deleteBtn" ng-click="deleteEvent(eventId)" style="width:140">Удалить встречу</button>
+				<button ng-if="eventData.room != null" class="cancel saveD" id="saveBtn" ng-click="saveChanges()"  style="width:101">Сохранить</button>	
+
+				<button ng-if="eventData.room == null" class="createEvent " style="color: #FBF5F5;" id="deleteBtn" ng-click="saveChanges()">Cоздать встречу</button>
 			</div>			
 			<!-- <button class="createEvent">Создать встречу</button> -->
 		</div>		

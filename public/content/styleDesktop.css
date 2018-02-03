@@ -3,6 +3,37 @@ body
 	margin: 0 0 0 25px;
 }
 
+button
+{
+	padding: 0 16px;
+	margin: 0 8px;
+}
+
+
+button.createEvent
+{
+	background: #007DFF;
+	border-radius: 4px;
+	
+	height: 36px;
+	width:140px;
+	
+	font-family: HelveticaNeue-Medium;
+	font-size: 13px;
+	letter-spacing: 0;
+}
+button.createEvent:hover
+{
+	background: #007DFF;
+	background: #0059FF;
+}
+button.createEvent:active
+{
+	background: rgba(11,0,255,0.80);
+	background: #0059FF;
+}
+
+
 .heading
 {
 	height:71px;			

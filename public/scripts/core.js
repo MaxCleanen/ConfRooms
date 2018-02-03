@@ -143,20 +143,7 @@ function process($scope,$http){
         
 }
 
-var months = [
-'Января',
-'Февраля',
-'Марта',
-'Апреля',
-'Мая',
-'Июня',
-'Июля',
-'Августа',
-'Сентября',
-'Октября',
-'Ноября',
-'Декабря'
-];
+var months = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря'];
 
 
 
@@ -171,33 +158,6 @@ function compare(e1,e2)
 }
 
 
-// var YandexRooms = angular.module('YandexRooms', [
-//   'ngRoute',
-//   'YandexRooms.mainView',
-//   'YandexRooms.editEvent'
-// ])
-//  .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-//  	$locationProvider.html5Mode(true);
-//  	$locationProvider.hashPrefix('!');
-
-// 	$routeProvider.otherwise({redirectTo: '/mainView'});
-// }]);
-
-
-// function eventController($scope, $http,$location,$routeParams) {  
-// 	$scope.showDetails = function(eventId){
-// 			$scope.eventId = eventId;
-// 			$scope.details = "editEvent/editEvent.html";
-//             //$location.path("editEvent"); // path not hash
-//         }
-
-// }
-
-
-// var YandexRooms = angular.module('YandexRooms', [])
-// .config(function($locationProvider){
-//     $locationProvider.html5Mode(true);
-// });
 
 function formatDate(dateString,formatString)
 {
@@ -211,10 +171,9 @@ function formatDate(dateString,formatString)
     if(formatString == "dd.MM.yyyy")
     {
         return date.getDate() + " " + months[date.getMonth()] + ", " + date.getFullYear(); 
-    }
-
-        
+    }   
 }
+
 YRoomsApp.controller("eventController", function eventController($scope, $http,$location,$routeParams) {    
         
         $scope.formData = {};
@@ -224,12 +183,13 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
         {            
             $scope.caption = "Новая встреча";
             $scope.eventData.eventDate = formatDate(new Date(), "dd.MM.yyyy");
+            $scope.eventData.room = null;
         }
         else
         {
             $scope.caption = "Редактирование встречи";   
             
-            var eventpromise =  $http.get(`/graphql?query=query{event(id${$routeParams.eventId}){title, dateStart,dateEnd,users{login},room{title}}}`);
+            var eventpromise =  $http.get(`/graphql?query=query{event(id${$routeParams.eventId}){title, dateStart,dateEnd,users{login,avatarUrl,id},room{title,floor}}}`);
     
             eventpromise.then(function(data){
                 
@@ -247,31 +207,36 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
         var userpromise = $http.get(`/graphql?query=query{users{id,login,avatarUrl}}`);
 
         userpromise.then(function(data){            
-            $scope.users = data.data.data.users;            
-            console.log($scope.users);
-        }) 
+            $scope.users = data.data.data.users;
+        })
 
+        $http.get(`/graphql?query=query{rooms{title, floor}}`)
+        .then(function(data){            
+            $scope.rooms = data.data.data.rooms;
+            
+        });
 
 
         $scope.go = function(path){   
             $location.path(path);
         };
+        $scope.deleteUser = function(user)
+        {
+            $scope.eventData.users = $scope.eventData.users.filter(function(u)
+            {
+                return u.login != user.login;
+            });
+        }
         $scope.userSelected = function(){
-            //$scope.$apply(function(){
-                if($scope.eventData.users == undefined)
-                {
-                    $scope.eventData.users=[];   
-                }
-
-                if(!$scope.eventData.users.includes($scope.selectedUser))
-                {
-                    $scope.eventData.users.push($scope.selectedUser);    
-                }
-                
-
-                $scope.selectedUser = null;
-            //})
-            
+            if($scope.eventData.users == undefined)
+            {
+                $scope.eventData.users=[];
+            }
+            if(!$scope.eventData.users.includes($scope.selectedUser))
+            {
+                $scope.eventData.users.push($scope.selectedUser);    
+            }
+            $scope.selectedUser = null;
         }
         $scope.deleteEvent = function(eventId){
 
