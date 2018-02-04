@@ -81,8 +81,8 @@
 			<div class="roomsPart">	
 				<div ng-if="eventData.room != null">
 					<label class="captionFont" style="padding-bottom: 5px">Ваша переговорка</label>
-					<div class="eroom currentRoom" style="margin-top:3px">
-						<div class="roomDescription" style="word-wrap: break-word;">
+					<div class="eroom"  style="color:white;background: #007DFF;"">
+						<div class="roomDescription">
 							<label style="font-family: HelveticaNeue-Bold">
 								{{eventData.timeStart}}—{{eventData.timeEnd}} </label>	
 							<label style="font-family: HelveticaNeue">
@@ -111,7 +111,7 @@
 				</div>	
 				<div ng-if="eventData.room == null">
 					<label class="captionFont" style="padding-bottom: 5px">Рекомендуемые переговорки</label>
-					<div ng-repeat="room in rooms" class="eroom recommendedRoom">{{room.title}} · {{room.floor}} этаж</div>	
+					<div ng-repeat="room in rooms" style="color:black;background: #E9ECEF;" class="eroom">{{room.title}} · {{room.floor}} этаж</div>	
 				</div>
 				
 			</div>		

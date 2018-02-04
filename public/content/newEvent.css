@@ -154,25 +154,14 @@ button.cancel:disabled
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-left: 10px;
-
 	align-items: center;
 	display: flex;
-
-
-	font-size: 13px;
-	color: #FFFFFF;
+	font-size: 13px;	
 	letter-spacing: 0;
 	line-height: 17px;
+	word-wrap: break-word; 
 }
-.currentRoom
-{
-	background: #007DFF;	
-	color:white;
-}
-.recommendedRoom
-{
-	background: #E9ECEF;	
-}
+
 
 .participant
 {
