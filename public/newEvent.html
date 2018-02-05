@@ -29,7 +29,7 @@
 		</div>
 		<div class="title">
 			<label class="title captionFont">Тема</label>
-			<input class="title" placeholder="О чём будете говорить?" value={{eventData.title}}>
+			<input class="title" placeholder="О чём будете говорить?" ng-model="eventData.title">
 		</div>
 		<div class="datePart" style="display: inline-block;">
 			<div class="dateTimeLabelsD">
@@ -122,14 +122,13 @@
 		</div>
 		<div class="bottomOptionsM">
 			<button class="cancelM" style="margin-left:81px; margin-right:12px">Отмена</button>
-			<button class="saveM save" ng-click="updateEvent()">Сохранить</button>
+			<button class="saveM save" ng-click="saveChanges()">Сохранить</button>
 		</div>
 		
 		<div class="mentOptionsD">
 			<div style="display: flex; justify-content: center; padding-bottom: 20px; padding-top: 20px">
 			<div>
 				<button class="cancel" ng-click="go('/main')" style="width:80">Отмена</button>
-
 
 				<button ng-if="eventData.room != null" class="cancel deleteD" id="deleteBtn" ng-click="deleteEvent(eventId)" style="width:140">Удалить встречу</button>
 				<button ng-if="eventData.room != null" class="cancel saveD" id="saveBtn" ng-click="saveChanges()"  style="width:101">Сохранить</button>	
