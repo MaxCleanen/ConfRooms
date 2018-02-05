@@ -189,11 +189,12 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
         {
             $scope.caption = "Редактирование встречи";   
             
-            var eventpromise =  $http.get(`/graphql?query=query{event(id${$routeParams.eventId}){title, dateStart,dateEnd,users{login,avatarUrl,id},room{title,floor}}}`);
+            var eventpromise =  $http.get(`/graphql?query=query{event(id${$routeParams.eventId}){id, title, dateStart,dateEnd,users{login,avatarUrl,id},room{title,floor}}}`);
     
             eventpromise.then(function(data){
                 
                 $scope.eventData = data.data.data.event;                
+                $scope.initialUserIds = $scope.eventData.users.map(function(user){return user.id});//сохраним начальный идентификаторы участников на случай если оно изменится
 
                 
                 $scope.eventData.timeStart = formatDate($scope.eventData.dateStart,"HH:mm");                
@@ -220,6 +221,7 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
         $scope.go = function(path){   
             $location.path(path);
         };
+        
         $scope.deleteUser = function(user)
         {
             $scope.eventData.users = $scope.eventData.users.filter(function(u)
@@ -227,6 +229,7 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
                 return u.login != user.login;
             });
         }
+
         $scope.userSelected = function(){
             if($scope.eventData.users == undefined)
             {
@@ -238,6 +241,7 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
             }
             $scope.selectedUser = null;
         }
+
         $scope.deleteEvent = function(eventId){
 
             var xhr = new XMLHttpRequest();
@@ -255,19 +259,39 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
         };
 
         $scope.saveChanges = function(){
+            //добавил поле ID в загрузке модели редактирования
+            var querystr = `/graphql?query=mutation{updateEvent(id:${$scope.eventData.id},
+            input:{title:"${$scope.eventData.title}",dateStart:"2018-01-30T17:00:00.000Z",dateEnd:"2018-01-30T18:00:00.000Z"}){id}}`;
+            $http.post(querystr).then(function(data){
+                currentUserIds = $scope.eventData.users.map(function(e){
+                    return e.id
+                });//сохраним начальный идентификаторы участников на случай если оно изменится
 
-            var xhr = new XMLHttpRequest();
-            xhr.responseType = 'json';
-            xhr.open("POST", "/graphql");
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.setRequestHeader("Accept", "application/json");
-            xhr.onload = function () {
-              console.log('data returned:', xhr.response);
-            }
+                var IDsToAdd = [];
+                var IDsToRemove = []
 
-            var querystr = `mutation{updateEvent(id:${$scope.formData.eventId}){id}}`;
-            var s = JSON.stringify({query:querystr});
-            xhr.send(s);
+                currentUserIds.forEach(function(item,i,arr){
+                    if (!$scope.initialUserIds.includes(item))
+                    {
+                        querystr = `/graphql?query=mutation{addUserToEvent(id:${$scope.eventData.id}, userId:${item}){id}}`;
+                        $http.post(querystr).then(function(data){
+                            console.log(data);
+                        }); 
+                    }
+                })
+
+                $scope.initialUserIds.forEach(function(item,i,arr){
+                    if (!currentUserIds.includes(item))
+                    {
+                        querystr = `/graphql?query=mutation{removeUserFromEvent(id:${$scope.eventData.id}, userId:${item}){id}}`;
+                        $http.post(querystr).then(function(data){
+                            console.log(data);
+                        });
+                    }
+                })                
+                $location.path("/main");
+                alert("Данные обновлены!");
+            });            
         };
 
         $scope.showDetails = function(eventId){
