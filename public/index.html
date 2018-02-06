@@ -3,11 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
+	
+
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
-
-    <script src="/scripts/core.js"></script>      
-    <script src="/scripts/moment-with-locales.js"></script>      
+    <script src="/scripts/core.js"></script>
+    <script src="/scripts/moment-with-locales.js"></script>
     
 
 	<link rel="stylesheet" type="text/css" href="content/styleMobile.css" media="(max-device-width:360px)">
@@ -17,7 +18,10 @@
 	<link rel="stylesheet" type="text/css" href="/content/mobile.css" media="(max-device-width:360px)">
 
 	<link rel="stylesheet" type="text/css" href="content/newEvent.css" media="(min-device-width:361px)">
-
+	<script src="/scripts/input-mask.js"  ></script>
+	<link rel="stylesheet" type="text/css" href="content/input-mask.css">
+	
+	
 	
 
 	<style type="text/css">
@@ -295,8 +299,7 @@
 
 	</style>
 </head>
-<body>
-	
+<body>	
 	<ng-view>
 	</ng-view>
 
@@ -332,8 +335,9 @@
 			</div>	
 		</div>
 	</div>
-	
+
 </body>
 
 </html>
+
 

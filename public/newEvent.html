@@ -1,3 +1,4 @@
+
 <div ng-controller="eventController">
 	<div class="heading">
 		<img src="./images/graphics/logo.svg">
@@ -34,17 +35,19 @@
 		<div class="datePart" style="display: inline-block;">
 			<div class="dateTimeLabelsD">
 				<label class="date captionFont">Дата</label>
-				<label class="timeFrom captionFont" style="margin-left:-4px;margin-right:-4px;width:94px;">Начало</label>				
-				<label class="captionFont" style="width:41px;">Конец</label>
+				<label class="timeFrom captionFont" for="timeStart1" style="margin-left:-4px;margin-right:-4px;width:94px;">Начало</label>				
+				<label class="captionFont" for="timeEnd1" style="width:41px;">Конец</label>
 			</div>
 			<div class="dateTimeLabelsM ">
 				<label class="captionFont">Дата и время</label>
 			</div>
 			<div>
 				<input style="display: inline-block;" class="date" value="{{eventData.eventDate}}"></input>
-				<input style="display: inline-block;" class="time" value="{{eventData.timeStart}}"></input>
+				<input style="display: inline-block;" type="tel" data-valid-example="05:05" placeholder="__:__" id="timeStart1" name="timeStart1"
+				pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" class="time masked" ng-model="eventData.timeStart" title="Time"></input>
 				<label style="vertical-align: middle; width:14px; font-family: HelveticaNeue-Bold; font-size: 13px;color: #000000;letter-spacing: 0.47px;">—</label>
-				<input  style="display: inline-block;" class="time" value="{{eventData.timeEnd}}"></input>
+				<input style="display: inline-block;" type="tel" data-valid-example="05:05" placeholder="__:__" id="timeEnd1" name="timeEnd1"
+				pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" class="time masked" ng-model="eventData.timeEnd" title="Time"></input>
 			</div>	
 		</div>
 		<div>
