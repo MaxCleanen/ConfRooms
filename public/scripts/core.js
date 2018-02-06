@@ -175,9 +175,9 @@ function formatDate(dateString,formatString)
 }
 
 YRoomsApp.controller("eventController", function eventController($scope, $http,$location,$routeParams) {    
-        
         $scope.formData = {};
-        $scope.eventData = {}
+        $scope.eventData = {};
+
 
         if($routeParams.eventId == undefined)
         {            
@@ -216,6 +216,14 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
             $scope.rooms = data.data.data.rooms;
             
         });
+
+        $scope.$watch($scope,function(){
+            // /alert('opts');
+            new InputMask();
+            // new InputMask({
+            //     number:'YMDHm'
+            // });
+        })
 
 
         $scope.go = function(path){   
@@ -260,8 +268,10 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
 
         $scope.saveChanges = function(){
             //добавил поле ID в загрузке модели редактирования
-            var querystr = `/graphql?query=mutation{updateEvent(id:${$scope.eventData.id},
-            input:{title:"${$scope.eventData.title}",dateStart:"2018-01-30T17:00:00.000Z",dateEnd:"2018-01-30T18:00:00.000Z"}){id}}`;
+            var newDateStart = new Date(`${$scope.eventData.dateStart.substr(0,10)}T${$scope.eventData.timeStart}:00.000`).toISOString();
+            var newDateEnd = new Date(`${$scope.eventData.dateEnd.substr(0,10)}T${$scope.eventData.timeEnd}:00.000`).toISOString();
+            var querystr = `/graphql?query=mutation{updateEvent(id:${$scope.eventData.id},input:{title:"${$scope.eventData.title}",dateStart:"${newDateStart}",dateEnd:"${newDateEnd}"}){id}}`;
+            console.log(querystr);
             $http.post(querystr).then(function(data){
                 currentUserIds = $scope.eventData.users.map(function(e){
                     return e.id
