@@ -67,8 +67,22 @@ input.time
 	display: block;
 }
 
-
-
+input.time::-webkit-input-placeholder
+{	
+	text-align: center;
+}
+input.time:-moz-placeholder
+{	
+	text-align: center;
+}
+input.time::-moz-placeholder
+{	
+	text-align: center;
+}
+input.time:-ms-input-placeholder
+{	
+	text-align: center;
+}
 div.users
 {
 	width:420px;
