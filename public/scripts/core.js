@@ -5,7 +5,7 @@ var YRoomsApp = angular.module('YRoomsApp',["ngRoute"])
             templateUrl:'newEvent.html',
             controller: 'eventController'
         });
-        $routeProvider.when('/main',
+        $routeProvider.when('/main:DateNow?',
         {
             templateUrl:'main.html',
             controller: 'mainController'
@@ -15,7 +15,7 @@ var YRoomsApp = angular.module('YRoomsApp',["ngRoute"])
     });
 
 
-YRoomsApp.controller("mainController", function mainController($scope,$http,$q, $interval,$location){
+YRoomsApp.controller("mainController", function mainController($scope,$http,$q, $interval,$location,$routeParams){
     
     $interval(function(){
         $scope.currentTime = new Date();
@@ -26,8 +26,10 @@ YRoomsApp.controller("mainController", function mainController($scope,$http,$q, 
             $scope.currentTimeFormatted = ('0' + $scope.currentTime.getHours()).slice(-2)+' '+('0' + $scope.currentTime.getMinutes()).slice(-2);
     },1000);
 
-
-    $scope.currentDate = new Date();    
+    if($routeParams.DateNow == undefined)
+        $scope.currentDate = new Date();    
+    else
+        $scope.currentDate = new Date($routeParams.DateNow.toString().substr(1,4),parseInt($routeParams.DateNow.toString().substr(5,2))-1,$routeParams.DateNow.toString().substr(7,2));
     $scope.monthName = months[$scope.currentDate.getMonth()];    
     process($scope,$http);
 
@@ -36,11 +38,19 @@ YRoomsApp.controller("mainController", function mainController($scope,$http,$q, 
     {
         if(i==-1)
         {
-            $scope.currentDate.setDate($scope.currentDate.getDate()-1);
+            var prevDate = new Date($scope.currentDate);
+            prevDate.setDate($scope.currentDate.getDate()-1);   
+            var dt = prevDate.getFullYear()*10000 +  (prevDate.getMonth()+1)*100 + prevDate.getDate();
+            $location.path(`/main:${dt}`);
+            //$scope.currentDate.setDate($scope.currentDate.getDate()-1);
         }
         else
         {
-            $scope.currentDate.setDate($scope.currentDate.getDate()+1);
+            var nextDate = new Date($scope.currentDate);
+            nextDate.setDate($scope.currentDate.getDate()+1);   
+            var dt = nextDate.getFullYear()*10000 +  (nextDate.getMonth()+1)*100 + nextDate.getDate();
+            $location.path(`/main:${dt}`);
+            //$scope.currentDate.setDate($scope.currentDate.getDate()+1);
         }
         $scope.monthName = months[$scope.currentDate.getMonth()];
         process($scope,$http);
@@ -53,12 +63,12 @@ YRoomsApp.controller("mainController", function mainController($scope,$http,$q, 
     $scope.editEvent = function(eventId){       
     };    
     $scope.getNumber = function(){        
-        return [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+        return [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
     }
 })
 
 function process($scope,$http){    
-    $scope.startOfDay = new Date($scope.currentDate.getFullYear(),$scope.currentDate.getMonth(),$scope.currentDate.getDate(), 8,0,0,0);    
+    $scope.startOfDay = new Date($scope.currentDate.getFullYear(),$scope.currentDate.getMonth(),$scope.currentDate.getDate(), 0,0,0,0);    
     $scope.endOfDay = new Date($scope.currentDate.getFullYear(),$scope.currentDate.getMonth(),$scope.currentDate.getDate(), 23,59,59,999);            
     
     var roompromise =  $http.get(`/graphql?query=query{rooms{id, title,capacity,floor}}`);// getrooms(`/graphql?query=query{rooms{id, title,capacity,floor}}`);
@@ -236,6 +246,15 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
             {
                 return u.login != user.login;
             });
+        }
+
+        $scope.selectRoom = function(room)
+        {
+            $scope.eventData.room = room;
+        }
+        $scope.cancelRoom = function()
+        {
+            $scope.eventData.room = null;   
         }
 
         $scope.userSelected = function(){

@@ -32,13 +32,7 @@
 				    </g>
 				</svg>
 			</div>
-		</div>
-		<div class="currentTime" style="left:{{245+((currentTime-startOfDay)/60000*1072/960)}}px;line-height: 20px; font-family: HelveticaNeue-Bold;font-size: 11px;color: #FFFFFF;letter-spacing: 0.4px;">
-			<span style="display: inline-block;vertical-align: middle;line-height: normal">
-				{{currentTimeFormatted}}
-			</span>			
 		</div>			
-		<div ng-repeat="h in getNumber()" class="timeLine" style="text-align: center;">{{h}}</div>	
 	</div>
 	
 
@@ -47,8 +41,7 @@
 			<div style="display: inline-block;width:220px"></div>
 			<div ng-repeat="h in getNumber()" class="timeLine" style="text-align:center"></div>				
 		</div>			
-	</div>	
-	
+	</div>		
 	
 	<div>			
 		<div class="floor">
@@ -61,12 +54,26 @@
 					<br>
 					<span class="roomCap">до {{r.capacity}} человек</span>
 				</div>
-			</div>
+			</div>			
+		</div>
+	</div>
+	<div class="wholeGrid" style="position:absolute; left:245px;top:71px; overflow-x: scroll;width:1072px; height: 100%">
+		<div style="height:46px;padding-bottom: 47px;display: inline-flex;
+    align-items: center;">
+			<div class="currentTime" style="left:{{245+((currentTime-startOfDay)/60000*1560/1440)}}px;line-height: 20px; font-family: HelveticaNeue-Bold;font-size: 11px;color: #FFFFFF;letter-spacing: 0.4px;">
+			<span style="display: inline-block;vertical-align: middle;line-height: normal">
+				{{currentTimeFormatted}}
+			</span>			
+		</div>			
+		<div ng-repeat="h in getNumber()" class="timeLine" style="text-align: center;">{{h}}</div>
+		</div>
+		
+		<div class="room" ng-repeat="r in rooms | orderBy:'floor'">		
 			<div class="timeRow">					
 				<div ng-repeat="e in r.timeslots" ng-switch="e.occupied" style="display:inline-block; height:44px;">
 					<div ng-switch-when="true" style="display:inline-block;height:44px;">
-						<div class="oCell closed" ng-click="go('/editEvent:'+e.id)" id="{{e.id}}" style="display:inline-block; width:{{(e.dateEnd-e.dateStart)/60000*1072/960}}px">
-							<div class="eventToolTip" style="padding:16px; left: -{{169-(e.dateEnd-e.dateStart)/60000*1072/960/2}}px">
+						<div class="oCell closed" ng-click="go('/editEvent:'+e.id)" id="{{e.id}}" style="display:inline-block; width:{{((e.dateEnd-e.dateStart)/60000*1560/1440)+36}}px">
+							<div class="eventToolTip" style="padding:16px; left: -{{169-(e.dateEnd-e.dateStart)/60000*1560/1440/2}}px">
 								<label style="font-family: HelveticaNeue-Bold;font-size: 15px;color: #000000;letter-spacing: 0;line-height: 24px;" for="">{{e.title}}</label>
 								<div style="float:right">
 									<div class="pen">
@@ -105,7 +112,7 @@
 						</div>		
 					</div>
 					<div ng-switch-when="false" style="display:inline-block;height:44px;">
-						<div class="oCell free" ng-click="go('/editEvent')" style="display:inline-block;width:{{(e.dateEnd-e.dateStart)/60000*1072/960}}px">
+						<div class="oCell free" ng-click="go('/editEvent')" style="display:inline-block;width:{{((e.dateEnd-e.dateStart)/60000*1560/1440)+36}}px">
 						</div>		
 					</div>
 					

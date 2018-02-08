@@ -92,7 +92,7 @@
 								{{eventData.room.title}} · {{eventData.room.floor}} этаж
 							</label>
 						</div>
-						<div style="width:16px;height:16px;margin:0 12px;">						
+						<div ng-click="cancelRoom()" style="width:16px;height:16px;margin:0 12px;">						
 							<svg style="display: block; height:16px; margin:auto;" width="9px" height="9px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 						    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
 						    <title>close</title>
@@ -114,7 +114,7 @@
 				</div>	
 				<div ng-if="eventData.room == null">
 					<label class="captionFont" style="padding-bottom: 5px">Рекомендуемые переговорки</label>
-					<div ng-repeat="room in rooms" style="color:black;background: #E9ECEF;" class="eroom">{{room.title}} · {{room.floor}} этаж</div>	
+					<div ng-click="selectRoom(room)" ng-repeat="room in rooms" style="color:black;background: #E9ECEF;" class="eroom">{{room.title}} · {{room.floor}} этаж</div>	
 				</div>
 				
 			</div>		
