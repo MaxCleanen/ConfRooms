@@ -16,67 +16,106 @@ var YRoomsApp = angular.module('YRoomsApp',["ngRoute"])
 
 
 YRoomsApp.controller("mainController", function mainController($scope,$http,$q, $interval,$location,$routeParams){
-    
-    $interval(function(){
-        $scope.currentTime = new Date();
-
-        if($scope.currentTime.getSeconds()%2 ==0 )
+    //Функция для отображения текущего времени
+    $scope.currentTime = new Date();
+    if($scope.currentTime.getSeconds()%2 ==0 )
             $scope.currentTimeFormatted = ('0' + $scope.currentTime.getHours()).slice(-2)+':'+('0' + $scope.currentTime.getMinutes()).slice(-2);
         else
             $scope.currentTimeFormatted = ('0' + $scope.currentTime.getHours()).slice(-2)+' '+('0' + $scope.currentTime.getMinutes()).slice(-2);
-    },1000);
+    // $interval(function(){        
+    //     if($scope.currentTime.getSeconds()%2 ==0 )
+    //         $scope.currentTimeFormatted = ('0' + $scope.currentTime.getHours()).slice(-2)+':'+('0' + $scope.currentTime.getMinutes()).slice(-2);
+    //     else
+    //         $scope.currentTimeFormatted = ('0' + $scope.currentTime.getHours()).slice(-2)+' '+('0' + $scope.currentTime.getMinutes()).slice(-2);
+    // },1000);
 
     if($routeParams.DateNow == undefined)
-        $scope.currentDate = new Date();    
+    {
+        $scope.currentDate = new Date();
+        $scope.currentDate.setHours(0);
+        $scope.currentDate.setMinutes(0);
+        $scope.currentDate.setSeconds(0);
+    }
+        
     else
-        $scope.currentDate = new Date($routeParams.DateNow.toString().substr(1,4),parseInt($routeParams.DateNow.toString().substr(5,2))-1,$routeParams.DateNow.toString().substr(7,2));
-    $scope.monthName = months[$scope.currentDate.getMonth()];    
-    process($scope,$http);
+    {
+        var year = $routeParams.DateNow.toString().substr(1,4);
+        var month = parseInt($routeParams.DateNow.toString().substr(5,2))-1;
+        var day = $routeParams.DateNow.toString().substr(7,2);
+        $scope.currentDate = new Date(year, month, day);
+    }    
 
+    processGrid($scope,$http);
 
     $scope.changedate = function(i)
     {
         if(i==-1)
-        {
-            var prevDate = new Date($scope.currentDate);
-            prevDate.setDate($scope.currentDate.getDate()-1);   
-            var dt = prevDate.getFullYear()*10000 +  (prevDate.getMonth()+1)*100 + prevDate.getDate();
-            $location.path(`/main:${dt}`);
-            //$scope.currentDate.setDate($scope.currentDate.getDate()-1);
+        {            
+            var prevDate = new Date((new Date($scope.currentDate)).setDate($scope.currentDate.getDate()-1));   
+            var dt = prevDate.getFullYear()*10000 +  (prevDate.getMonth()+1)*100 + prevDate.getDate();            
         }
         else
         {
-            var nextDate = new Date($scope.currentDate);
-            nextDate.setDate($scope.currentDate.getDate()+1);   
+            var nextDate = new Date((new Date($scope.currentDate)).setDate($scope.currentDate.getDate()+1));   
             var dt = nextDate.getFullYear()*10000 +  (nextDate.getMonth()+1)*100 + nextDate.getDate();
-            $location.path(`/main:${dt}`);
-            //$scope.currentDate.setDate($scope.currentDate.getDate()+1);
         }
-        $scope.monthName = months[$scope.currentDate.getMonth()];
-        process($scope,$http);
+        $location.path('/main:'+dt);
+        processGrid($scope,$http);
     }
-    $scope.createEventFromScratch = function(){        
-    };
     $scope.go = function(path){   
         $location.path(path);
     };
-    $scope.editEvent = function(eventId){       
-    };    
-    $scope.getNumber = function(){        
-        return [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+    $scope.getNextHour = function(){                
+        var hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+        var dates = [];
+        hours.forEach(function(hour,i,arr){
+            var hourCell ={};
+            hourCell.hrs = hour;            
+
+            if($scope.currentTime > new Date(new Date($scope.currentDate).setHours(hour)))
+            {
+                hourCell.style="red"
+            }
+            else
+            {
+                hourCell.style="green"
+            }
+            dates.push(hourCell);
+        })        
+        return dates;
     }
+
+    $scope.getNextHour = [];
+    var hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+    var dates = [];
+    hours.forEach(function(hour,i,arr)
+    {
+        var hourCell ={};
+        hourCell.hrs = hour;            
+
+        if($scope.currentTime > new Date(new Date($scope.currentDate).setHours(hour)))
+        {
+            hourCell.style="#858E98";
+        }
+        else
+        {
+            hourCell.style="black";
+        }
+        $scope.getNextHour.push(hourCell);
+    });
 })
 
-function process($scope,$http){    
-    $scope.startOfDay = new Date($scope.currentDate.getFullYear(),$scope.currentDate.getMonth(),$scope.currentDate.getDate(), 0,0,0,0);    
+function processGrid($scope,$http){    
+    $scope.monthName = months[$scope.currentDate.getMonth()];    
+    $scope.startOfDay = $scope.currentDate;    
     $scope.endOfDay = new Date($scope.currentDate.getFullYear(),$scope.currentDate.getMonth(),$scope.currentDate.getDate(), 23,59,59,999);            
     
-    var roompromise =  $http.get(`/graphql?query=query{rooms{id, title,capacity,floor}}`);// getrooms(`/graphql?query=query{rooms{id, title,capacity,floor}}`);
+    var roompromise =  $http.get('/graphql?query=query{rooms{id, title,capacity,floor}}');// getrooms(`/graphql?query=query{rooms{id, title,capacity,floor}}`);
     
     roompromise.then(function(data){
         $scope.rooms = data.data.data.rooms;
 
-        var eventpromise =  $http.get(`/graphql?query=query{events{id, title, dateStart,dateEnd,users{login,avatarUrl},room{id,title}}}`);// getrooms(`/graphql?query=query{rooms{id, title,capacity,floor}}`);
+        var eventpromise =  $http.get('/graphql?query=query{events{id, title, dateStart,dateEnd,users{login,avatarUrl},room{id,title}}}');// getrooms(`/graphql?query=query{rooms{id, title,capacity,floor}}`);
             
         eventpromise.then(function(data){                    
             $scope.events = data.data.data.events.filter(function(evnt){
@@ -199,7 +238,8 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
         {
             $scope.caption = "Редактирование встречи";   
             
-            var eventpromise =  $http.get(`/graphql?query=query{event(id${$routeParams.eventId}){id, title, dateStart,dateEnd,users{login,avatarUrl,id},room{title,floor}}}`);
+            var eventpromise =  $http.get('/graphql?query=query{event(id'+$routeParams.eventId + 
+                '){id, title, dateStart,dateEnd,users{login,avatarUrl,id},room{title,floor}}}');
     
             eventpromise.then(function(data){
                 
@@ -215,24 +255,20 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
         }
 
 
-        var userpromise = $http.get(`/graphql?query=query{users{id,login,avatarUrl}}`);
+        var userpromise = $http.get('/graphql?query=query{users{id,login,avatarUrl}}');
 
         userpromise.then(function(data){            
             $scope.users = data.data.data.users;
         })
 
-        $http.get(`/graphql?query=query{rooms{title, floor}}`)
+        $http.get('/graphql?query=query{rooms{title, floor}}')
         .then(function(data){            
             $scope.rooms = data.data.data.rooms;
             
         });
 
-        $scope.$watch($scope,function(){
-            // /alert('opts');
-            new InputMask();
-            // new InputMask({
-            //     number:'YMDHm'
-            // });
+        $scope.$watch($scope,function(){            
+            new InputMask();            
         })
 
 
@@ -271,25 +307,21 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
 
         $scope.deleteEvent = function(eventId){
 
-            var xhr = new XMLHttpRequest();
-            xhr.responseType = 'json';
-            xhr.open("POST", "/graphql");
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.setRequestHeader("Accept", "application/json");
-            xhr.onload = function () {
-              console.log('data returned:', xhr.response);
-            }
-
-            var querystr = 'mutation{removeEvent(id:'+eventId+'){id}}';
-            var s = JSON.stringify({query:querystr});
-            xhr.send(s);
+            document.getElementById('deleteModal').style.display = "block";
         };
+        $scope.confirmDeleting = function(eventId)
+        {
+            var querystr = '/graphql?query=mutation{removeEvent(id:'+eventId+'){id}}';
+            $http.post(querystr).then(function(data){
+                window.history.back();
+            })            
+        }
 
         $scope.saveChanges = function(){
             //добавил поле ID в загрузке модели редактирования
-            var newDateStart = new Date(`${$scope.eventData.dateStart.substr(0,10)}T${$scope.eventData.timeStart}:00.000`).toISOString();
-            var newDateEnd = new Date(`${$scope.eventData.dateEnd.substr(0,10)}T${$scope.eventData.timeEnd}:00.000`).toISOString();
-            var querystr = `/graphql?query=mutation{updateEvent(id:${$scope.eventData.id},input:{title:"${$scope.eventData.title}",dateStart:"${newDateStart}",dateEnd:"${newDateEnd}"}){id}}`;
+            var newDateStart = new Date($scope.eventData.dateStart.substr(0,10) + 'T' + $scope.eventData.timeStart + ':00.000').toISOString();
+            var newDateEnd = new Date($scope.eventData.dateEnd.substr(0,10) + 'T'+ $scope.eventData.timeEnd + ':00.000').toISOString();
+            var querystr = '/graphql?query=mutation{updateEvent(id:'+ $scope.eventData.id + ',input:{title:"' + $scope.eventData.title + '", dateStart:"'+ newDateStart +'",dateEnd:"' + newDateEnd + '"}){id}}';
             console.log(querystr);
             $http.post(querystr).then(function(data){
                 currentUserIds = $scope.eventData.users.map(function(e){
@@ -302,7 +334,7 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
                 currentUserIds.forEach(function(item,i,arr){
                     if (!$scope.initialUserIds.includes(item))
                     {
-                        querystr = `/graphql?query=mutation{addUserToEvent(id:${$scope.eventData.id}, userId:${item}){id}}`;
+                        querystr = '/graphql?query=mutation{addUserToEvent(id:'+$scope.eventData.id+', userId:'+item+'){id}}';
                         $http.post(querystr).then(function(data){
                             console.log(data);
                         }); 
@@ -312,14 +344,14 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
                 $scope.initialUserIds.forEach(function(item,i,arr){
                     if (!currentUserIds.includes(item))
                     {
-                        querystr = `/graphql?query=mutation{removeUserFromEvent(id:${$scope.eventData.id}, userId:${item}){id}}`;
+                        querystr = '/graphql?query=mutation{removeUserFromEvent(id:'+$scope.eventData.id+', userId:'+item+'){id}}';
                         $http.post(querystr).then(function(data){
                             console.log(data);
                         });
                     }
                 })                
-                $location.path("/main");
-                alert("Данные обновлены!");
+                window.history.back();
+                document.getElementById('saveModal').style.display = "block";
             });            
         };
 
@@ -342,7 +374,7 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
                         
             }
 
-            var querystr = `query{event(id:${eventId}){id, title, dateStart, dateEnd, users{login}, room{title}}}`;
+            var querystr = 'query{event(id:'+eventId+'){id, title, dateStart, dateEnd, users{login}, room{title}}}';
             var s = JSON.stringify({query:querystr});
             xhr.send(s);
         };
