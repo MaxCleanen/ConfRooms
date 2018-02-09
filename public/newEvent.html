@@ -4,7 +4,8 @@
 		<img src="./images/graphics/logo.svg">
 	</div>
 	<div class="content">
-		<div class="header">			
+		
+        <div class="header">			
 			<label class="pageHeader">
 				{{caption}}
 			</label>			
@@ -17,7 +18,7 @@
 				    <defs></defs>
 				    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 				        <g id="Новая-встреча" transform="translate(-325.000000, -306.000000)">
-				            <g id="человек3" transform="translate(204.000000, 299.000000)">
+				            <g transform="translate(204.000000, 299.000000)">
 				                <g id="close" transform="translate(118.000000, 4.000000)">
 				                    <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
 				                    <path id="crossSVG" d="M8.02081528,6.62132034 L5.19238816,3.79289322 C4.80186386,3.40236893 4.16869888,3.40236893 3.77817459,3.79289322 L3.77817459,3.79289322 L3.77817459,3.79289322 C3.3876503,4.18341751 3.3876503,4.81658249 3.77817459,5.20710678 L3.77817459,5.20710678 L6.60660172,8.03553391 L3.77817459,10.863961 C3.3876503,11.2544853 3.3876503,11.8876503 3.77817459,12.2781746 L3.77817459,12.2781746 L3.77817459,12.2781746 C4.16869888,12.6686989 4.80186386,12.6686989 5.19238816,12.2781746 L5.19238816,12.2781746 L8.02081528,9.44974747 L10.8492424,12.2781746 C11.2397667,12.6686989 11.8729317,12.6686989 12.263456,12.2781746 C12.6539803,11.8876503 12.6539803,11.2544853 12.263456,10.863961 L9.43502884,8.03553391 L12.263456,5.20710678 C12.6539803,4.81658249 12.6539803,4.18341751 12.263456,3.79289322 C11.8729317,3.40236893 11.2397667,3.40236893 10.8492424,3.79289322 L8.02081528,6.62132034 Z" id="Combined-Shape" fill="#AFB4B8"></path>
@@ -28,11 +29,13 @@
 				</svg>
 			</div>
 		</div>
+
 		<div class="title">
 			<label class="title captionFont">Тема</label>
 			<input class="title" placeholder="О чём будете говорить?" ng-model="eventData.title">
 		</div>
-		<div class="datePart" style="display: inline-block;">
+		
+        <div class="datePart" style="display: inline-block;">
 			<div class="dateTimeLabelsD">
 				<label class="date captionFont">Дата</label>
 				<label class="timeFrom captionFont" for="timeStart1" style="margin-left:-4px;margin-right:-4px;width:94px;">Начало</label>				
@@ -50,7 +53,8 @@
 				pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" class="time masked" ng-model="eventData.timeEnd" title="Time"></input>
 			</div>	
 		</div>
-		<div>
+		
+        <div>
 			<div class="users">
 				<label class="captionFont">Участники</label>
 
@@ -84,7 +88,7 @@
 			<div class="roomsPart">	
 				<div ng-if="eventData.room != null">
 					<label class="captionFont" style="padding-bottom: 5px">Ваша переговорка</label>
-					<div class="eroom"  style="color:white;background: #007DFF;"">
+					<div class="eroom selectedRoom">
 						<div class="roomDescription">
 							<label style="font-family: HelveticaNeue-Bold">
 								{{eventData.timeStart}}—{{eventData.timeEnd}} </label>	
@@ -114,140 +118,90 @@
 				</div>	
 				<div ng-if="eventData.room == null">
 					<label class="captionFont" style="padding-bottom: 5px">Рекомендуемые переговорки</label>
-					<div ng-click="selectRoom(room)" ng-repeat="room in rooms" style="color:black;background: #E9ECEF;" class="eroom">{{room.title}} · {{room.floor}} этаж</div>	
-				</div>
-				
+					<div ng-click="selectRoom(room)" ng-repeat="room in rooms" class="eroom recommendedRoom">
+						<div class="roomDescription">
+							<label style="font-family: HelveticaNeue-Bold">
+								{{eventData.timeStart}}—{{eventData.timeEnd}} </label>	
+							<label style="font-family: HelveticaNeue">
+								{{room.title}} · {{room.floor}} этаж
+							</label>
+						</div>						
+					</div>	
+				</div>				
 			</div>		
 		</div>
 		
 		<div class="menuOptionsM">
 			<button class="deleteM delete" ng-click="deleteEvent(eventId)">Удалить встречу</button>
 		</div>
+
 		<div class="bottomOptionsM">
-			<button class="cancelM" style="margin-left:81px; margin-right:12px">Отмена</button>
+			<button class="cancelM"  onclick="window.history.back();"  style="margin-left:81px; margin-right:12px">Отмена</button>
 			<button class="saveM save" ng-click="saveChanges()">Сохранить</button>
 		</div>
 		
 		<div class="mentOptionsD">
 			<div style="display: flex; justify-content: center; padding-bottom: 20px; padding-top: 20px">
-			<div>
-				<button class="cancel" ng-click="go('/main')" style="width:80">Отмена</button>
+				<div>
+					<button class="cancel" onclick="window.history.back();">Отмена</button>
 
-				<button ng-if="eventData.room != null" class="cancel deleteD" id="deleteBtn" ng-click="deleteEvent(eventId)" style="width:140">Удалить встречу</button>
-				<button ng-if="eventData.room != null" class="cancel saveD" id="saveBtn" ng-click="saveChanges()"  style="width:101">Сохранить</button>	
+					<button ng-if="eventData.room != null" class="cancel deleteD" id="deleteBtn" ng-click="deleteEvent(eventId)" style="width:140">Удалить встречу</button>
 
-				<button ng-if="eventData.room == null" class="createEvent " style="color: #FBF5F5;" id="deleteBtn" ng-click="saveChanges()">Cоздать встречу</button>
-			</div>			
-			<!-- <button class="createEvent">Создать встречу</button> -->
-		</div>		
+					<button ng-if="eventData.room != null" class="cancel saveD" id="saveBtn" ng-click="saveChanges()"  style="width:101">Сохранить</button>	
+
+					<button ng-if="eventData.room == null" class="createEvent " style="color: #FBF5F5;" id="deleteBtn" ng-click="saveChanges()">Cоздать встречу</button>
+				</div>			
+				<!-- <button class="createEvent">Создать встречу</button> -->
+			</div>		
 		</div>
-		<div id="myModal" class="modal">
-			
+		
+        <div id="deleteModal" class="modal">			
 			<div class="modal-content">		    
 				<div style="height:40px; width:40px; padding:32px 202px 16px 202px;">
-					<img src="./images/graphics/emoji1.svg" style="height:28px; width:39px;">	
-				</div>
-							
+					<svg width="39px" height="40px" viewBox="0 0 39 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+					    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+					    <title>emoji1</title>
+					    <desc>Created with Sketch.</desc>
+					    <defs></defs>
+					    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-weight="normal" font-family="AppleColorEmoji, Apple Color Emoji" line-spacing="60" font-size="40">
+					        <g id="assets" transform="translate(-115.000000, -116.000000)" fill="#000000">
+					            <g id="emoji1" transform="translate(114.000000, 109.000000)">
+					                <text id="🙅🏻">
+					                    <tspan x="0.5" y="40">🙅🏻</tspan>
+					                </text>
+					            </g>
+					        </g>
+					    </g>
+					</svg>
+				</div>						
 				<label style="width:320px; display: block;margin: auto;font-family: HelveticaNeue-Bold;font-size: 20px;color: #000000;letter-spacing: 0;line-height: 24px; text-align: center">
 					Встреча будет <br>удалена безвозвратно
 				</label>
 				<div style="display: flex; justify-content: center; padding-bottom: 32px; padding-top: 24px">
-					<button class="cancel" style="width:80px">Отмена</button>
-					<button class="cancel" id="deleteBtn" style="width:86px">Удалить</button>
+					<button class="cancel" onclick="document.getElementById('deleteModal').style.display='none'" style="width:80px">Отмена</button>
+					<button class="cancel" ng-click="confirmDeleting(eventData.id)" id="deleteBtn" style="width:86px">Удалить</button>
 				</div>			
 			</div>
 		</div>
-		<div class="modal" id="saveModal">
-			<div class="eventCreatedModal-content">
+		
+        <div class="modal" id="saveModal">
+			<div class="modal-content">
 				<div style="height:40px; width:40px; padding:32px 202px 16px 202px;">
 					<img src="./images/graphics/emoji2.svg" style="height:28px; width:39px;">	
-				</div>
-							
+				</div>						
 				<label style="width:320px; display: block;margin: auto;font-family: HelveticaNeue-Bold;font-size: 20px;color: #000000;letter-spacing: 0;line-height: 24px; text-align: center">
 					Встерча создана!
 				</label>
+				<label style="font-family: HelveticaNeue;font-size: 15px;color: #000000;letter-spacing: 0;line-height: 17px;"">
+					14 декабря, 15:00—17:00
+				</label>
+				<label style="font-family: HelveticaNeue;font-size: 15px;color: #000000;letter-spacing: 0;line-height: 17px;"">
+					{{eventData.room.title}} · {{eventData.room.floor}} этаж
+				</label>
 				<div style="display: flex; justify-content: center; padding-bottom: 32px; padding-top: 24px">
-					<button class="cancel" style="width:80px">Отмена</button>
-					<button class="cancel" id="deleteBtn" style="width:86px">Удалить</button>
+					<button class="cancel save" style="width:80px">Хорошо</button>				
 				</div>	
 			</div>
 		</div>
-	</div>
-	<script>
-
-	// Get the modal
-	var deletemodal = document.getElementById('myModal');
-
-	var savemodal = document.getElementById('saveModal');
-
-	// Get the button that opens the modal
-	var deleteMBtn = document.getElementsByClassName("deleteM")[0];
-	var saveMBtn = document.getElementsByClassName("saveM")[0];
-	var deleteDBtn = document.getElementsByClassName("deleteD")[0];
-	var saveDBtn = document.getElementsByClassName("saveD")[0];
-
-
-
-	// When the user clicks the button, open the modal 
-	deleteMBtn.onclick = function() {
-	    deletemodal.style.display = "block";
-	}
-	saveMBtn.onclick = function() {
-	    savemodal.style.display = "block";
-	}
-	deleteDBtn.onclick = function() {
-	    deletemodal.style.display = "block";
-	}
-	saveDBtn.onclick = function() {
-	    savemodal.style.display = "block";
-	}
-
-	window.onclick = function(event) {
-	    if (event.target == savemodal) {
-	        savemodal.style.display = "none";
-	    }
-	    if (event.target == deletemodal) {
-	        deletemodal.style.display = "none";
-	    }
-	}
-	</script>	
+	</div>	
 </div>
-<!-- <script>
-
-		// Get the modal
-		var deletemodal = document.getElementById('myModal');
-
-		var savemodal = document.getElementById('saveModal');
-
-		// Get the button that opens the modal
-		var deleteMBtn = document.getElementsByClassName("deleteM")[0];
-		var saveMBtn = document.getElementsByClassName("saveM")[0];
-		var deleteDBtn = document.getElementsByClassName("deleteD")[0];
-		var saveDBtn = document.getElementsByClassName("saveD")[0];
-
-
-
-		// When the user clicks the button, open the modal 
-		deleteMBtn.onclick = function() {
-		    deletemodal.style.display = "block";
-		}
-		saveMBtn.onclick = function() {
-		    savemodal.style.display = "block";
-		}
-		deleteDBtn.onclick = function() {
-		    deletemodal.style.display = "block";
-		}
-		saveDBtn.onclick = function() {
-		    savemodal.style.display = "block";
-		}
-
-		window.onclick = function(event) {
-		    if (event.target == savemodal) {
-		        savemodal.style.display = "none";
-		    }
-		    if (event.target == deletemodal) {
-		        deletemodal.style.display = "none";
-		    }
-		}
-	</script>	 -->
-</html>

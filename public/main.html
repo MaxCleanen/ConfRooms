@@ -18,7 +18,9 @@
 				    </g>
 				</svg>
 			</div>
-			<div style="display:inline-block;width:123px;margin:0 12.5px 0 13.5px;text-align: center">{{currentDate.getDate()}} {{monthName}}</div>
+			<div style="display:inline-block;width:123px;margin:0 12.5px 0 13.5px;text-align: center">
+				{{currentDate.getDate()}} {{monthName}}
+			</div>
 			<div id="rightArrow" ng-click="changedate(+1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px; margin-right: 24px">
 				<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 				    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
@@ -34,15 +36,7 @@
 			</div>
 		</div>			
 	</div>
-	
 
-	<div class="grid" style="height:0">
-		<div class="dateDiv" style="height:0; display:inline-flex;height:0; padding:0">
-			<div style="display: inline-block;width:220px"></div>
-			<div ng-repeat="h in getNumber()" class="timeLine" style="text-align:center"></div>				
-		</div>			
-	</div>		
-	
 	<div>			
 		<div class="floor">
 			<label>7 ЭТАЖ</label>
@@ -58,22 +52,27 @@
 		</div>
 	</div>
 	<div class="wholeGrid" style="position:absolute; left:245px;top:71px; overflow-x: scroll;width:1072px; height: 100%">
-		<div style="height:46px;padding-bottom: 47px;display: inline-flex;
-    align-items: center;">
-			<div class="currentTime" style="left:{{245+((currentTime-startOfDay)/60000*1560/1440)}}px;line-height: 20px; font-family: HelveticaNeue-Bold;font-size: 11px;color: #FFFFFF;letter-spacing: 0.4px;">
-			<span style="display: inline-block;vertical-align: middle;line-height: normal">
-				{{currentTimeFormatted}}
-			</span>			
-		</div>			
-		<div ng-repeat="h in getNumber()" class="timeLine" style="text-align: center;">{{h}}</div>
+		<div style="display: inline-flex; align-items: center;height:46px;padding-bottom: 47px">			
+			<div ng-if="(currentTime.getTime() >= currentDate.getTime())&&(currentTime.getTime() <= endOfDay.getTime())" 
+			class="currentTime" style="left:{{(currentTime-currentDate)/60000/60*65+17}}px;">
+				<span style="display: inline-block;vertical-align: middle;line-height: normal">
+					{{currentTimeFormatted}}
+				</span>			
+			</div>						
+			<div ng-repeat="h in getNextHour" class="timeLine" style="text-align: center;">				
+				<div style="color: {{h.style}}">
+					{{h.hrs}}		
+				</div>											
+			</div>			
 		</div>
+		
 		
 		<div class="room" ng-repeat="r in rooms | orderBy:'floor'">		
 			<div class="timeRow">					
 				<div ng-repeat="e in r.timeslots" ng-switch="e.occupied" style="display:inline-block; height:44px;">
 					<div ng-switch-when="true" style="display:inline-block;height:44px;">
-						<div class="oCell closed" ng-click="go('/editEvent:'+e.id)" id="{{e.id}}" style="display:inline-block; width:{{((e.dateEnd-e.dateStart)/60000*1560/1440)+36}}px">
-							<div class="eventToolTip" style="padding:16px; left: -{{169-(e.dateEnd-e.dateStart)/60000*1560/1440/2}}px">
+						<div class="oCell closed" ng-click="go('/editEvent:'+e.id)" id="{{e.id}}" style="display:inline-block; width:{{(e.dateEnd-e.dateStart)/60000/60*65}}px">
+							<div class="eventToolTip" style="padding:16px; left: -{{169-((e.dateEnd-e.dateStart)/60000/60*65)/2}}px">
 								<label style="font-family: HelveticaNeue-Bold;font-size: 15px;color: #000000;letter-spacing: 0;line-height: 24px;" for="">{{e.title}}</label>
 								<div style="float:right">
 									<div class="pen">
@@ -91,9 +90,8 @@
 								</div>									
 								<br>
 
-								<label style="font-family: HelveticaNeue;font-size: 13px;color: #000000;letter-spacing: 0;line-height: 17px;" for="">										
+								<label style="font-family: HelveticaNeue;font-size: 13px;color: #000000;letter-spacing: 0;line-height: 17px;" for="">
 									{{('0' + e.dateStart.getHours()).slice(-2)+':' + ('0' + e.dateStart.getMinutes()).slice(-2)+'—'+('0' + e.dateEnd.getHours()).slice(-2)+':' + ('0' + e.dateEnd.getMinutes()).slice(-2)}}
-									  
 								</label><br>									
 
 								<img class="avatar" ng-src="{{e.users[0].avatarUrl}}" alt="">
@@ -112,7 +110,7 @@
 						</div>		
 					</div>
 					<div ng-switch-when="false" style="display:inline-block;height:44px;">
-						<div class="oCell free" ng-click="go('/editEvent')" style="display:inline-block;width:{{((e.dateEnd-e.dateStart)/60000*1560/1440)+36}}px">
+						<div class="oCell free" ng-click="go('/editEvent')" style="display:inline-block;width:{{(e.dateEnd-e.dateStart)/60000/60*65}}px">
 						</div>		
 					</div>
 					
