@@ -145,8 +145,7 @@ button.cancel:disabled
 	
 }
 .eroom
-{
-	background: #E9ECEF;
+{	
 	border-radius: 4px;	
 	min-height:37px;
 	margin-bottom: 8px;
@@ -162,6 +161,26 @@ button.cancel:disabled
 	word-wrap: break-word; 
 }
 
+.recommendedRoom
+{
+	color:black;
+	background: #E9ECEF;
+}
+.recommendedRoom:hover
+{
+	background: rgba(4,29,56,0.14);		
+}
+
+.selectedRoom
+{
+	color:white;
+	background: #007DFF;
+	
+}
+.selectedRoom:hover
+{	
+	background: #0059FF;
+}
 
 .participant
 {

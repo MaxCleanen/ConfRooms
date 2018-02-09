@@ -1,3 +1,67 @@
+.dateDiv
+{
+	display:inline-flex; 
+	align-items:center; 
+	height:46px; 
+	padding: 11px 0;
+	box-sizing: border-box;
+	background: #FFFFFF;
+	box-shadow: 0 -1px 0 0 #E9ECEF, 0 1px 0 0 #E9ECEF;
+	z-index:1000;
+}
+
+
+.wholeGrid
+{
+	position: relative;
+	/*height:0;*/ 
+}
+.timeLine
+{
+	display: inline-block;
+	width:49px; 
+	margin:0 8px; 
+}
+.timeLine::after
+{
+	height: 100%;
+	width: 0;
+	position: absolute;
+	border: 1px solid rgba(19,100,205,0.10);
+	top: 46px;
+	content: " ";
+	z-index: 1000;
+}
+.currentTime
+{
+	position: 	absolute;	;
+	display: inline-block;
+
+	background: #007DFF;
+	border-radius: 100px;
+	width: 49px;
+	
+	height:20px;
+	line-height:20px;
+	text-align:center;	
+
+	font-family: HelveticaNeue-Bold;
+	font-size: 11px;
+	color: #FFFFFF;
+	letter-spacing: 0.4px;
+}
+.currentTime::after
+{	
+	height: 100%;			
+	width: 0;
+	position: absolute;
+	border: 1px solid #007DFF;
+	top: 20px;
+	content: " ";
+	z-index: 998;
+	margin-left:-15px;
+}
+
 body
 {
 	margin: 0 0 0 25px;
