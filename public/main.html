@@ -1,77 +1,92 @@
 <div ng-controller="mainController">
-	<div class="heading" >
-		<img src="./images/graphics/logo.svg">
-		<button class="createEvent" style="position:absolute;right:12px;color: #FFFFFF;" ng-click="go('/editEvent')">Создать встречу</button>
-	</div>
-	<div class="dateDiv">
-		<div class="calendarBox">			
-			<div id="leftArrow" ng-click="changedate(-1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px;">
-				<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-				    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
-				        <g id="главная" transform="translate(-31.000000, -88.000000)" stroke="#000000" stroke-width="2">
-				            <g id="Дата" transform="translate(24.000000, 82.000000)">
-				                <g id="arrow2" transform="translate(8.000000, 7.000000)">
-				                    <polyline id="Rectangle-4" transform="translate(5.000000, 5.000000) rotate(-315.000000) translate(-5.000000, -5.000000) " points="8 8 2 8 2 2 2 2"></polyline>
-				                </g>
-				            </g>
-				        </g>
-				    </g>
-				</svg>
-			</div>
-			<div style="display:inline-block;width:123px;margin:0 12.5px 0 13.5px;text-align: center">
-				{{currentDate.getDate()}} {{monthName}}
-			</div>
-			<div id="rightArrow" ng-click="changedate(+1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px; margin-right: 24px">
-				<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-				    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
-				        <g id="главная" transform="translate(-207.000000, -88.000000)" stroke="#000000" stroke-width="2">
-				            <g id="Дата" transform="translate(24.000000, 82.000000)">
-				                <g id="arrow" transform="translate(179.000000, 7.000000)">
-				                    <polyline id="Rectangle-4-Copy" transform="translate(5.000000, 5.000000) rotate(-135.000000) translate(-5.000000, -5.000000) " points="8 8 2 8 2 2 2 2"></polyline>
-				                </g>
-				            </g>
-				        </g>
-				    </g>
-				</svg>
-			</div>
-		</div>			
-	</div>
 
-	<div>			
-		<div class="floor">
-			<label>7 ЭТАЖ</label>
+	<div >
+		<div class="heading" style="position:fixed; top:0; background-color: white; z-index:100">		
+			<img src="./images/graphics/logo.svg">
+			<button class="createEvent" style="position:fixed;right:12px;top:18px" ng-click="go('/editEvent')">Создать встречу</button>				
 		</div>
-		<div class="room" ng-repeat="r in rooms | orderBy:'floor'">
-			<div class="roomDesc">
-				<div style="display:table">
-					<span class="roomName">{{r.title}}</span>
-					<br>
-					<span class="roomCap">до {{r.capacity}} человек</span>
+		<div style="position:relative; top:71px; background-color: white; z-index:1">
+			<div class="dateDiv">
+				<div class="calendarBox">			
+					<div id="leftArrow" ng-click="changedate(-1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px;">
+						<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+						    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
+						        <g id="главная" transform="translate(-31.000000, -88.000000)" stroke="#000000" stroke-width="2">
+						            <g id="Дата" transform="translate(24.000000, 82.000000)">
+						                <g id="arrow2" transform="translate(8.000000, 7.000000)">
+						                    <polyline id="Rectangle-4" transform="translate(5.000000, 5.000000) rotate(-315.000000) translate(-5.000000, -5.000000) " points="8 8 2 8 2 2 2 2"></polyline>
+						                </g>
+						            </g>
+						        </g>
+						    </g>
+						</svg>
+					</div>
+					<div style="display:inline-block;width:123px;margin:0 12.5px 0 13.5px;text-align: center">
+						{{currentDate.getDate()}} {{monthName}}
+					</div>
+					<div id="rightArrow" ng-click="changedate(+1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px; margin-right: 24px">
+						<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+						    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
+						        <g id="главная" transform="translate(-207.000000, -88.000000)" stroke="#000000" stroke-width="2">
+						            <g id="Дата" transform="translate(24.000000, 82.000000)">
+						                <g id="arrow" transform="translate(179.000000, 7.000000)">
+						                    <polyline id="Rectangle-4-Copy" transform="translate(5.000000, 5.000000) rotate(-135.000000) translate(-5.000000, -5.000000) " points="8 8 2 8 2 2 2 2"></polyline>
+						                </g>
+						            </g>
+						        </g>
+						    </g>
+						</svg>
+					</div>
 				</div>
-			</div>			
-		</div>
+				<div style="display: inline-flex; align-items: center;">			
+					<div ng-if="(currentTime.getTime() >= currentDate.getTime())&&(currentTime.getTime() <= endOfDay.getTime())" 
+					class="currentTime" style="left:{{(((currentTime-currentDate)/60000)*65/60)+33+245-25}}px;">
+						<span style="vertical-align: middle;">
+							{{currentTimeFormatted}}
+						</span>			
+					</div>						
+					<div ng-repeat="h in getNextHour" class="timeLine" style="text-align: center;">				
+						<div style="color: {{h.style}}">
+							{{h.hrs}}		
+						</div>											
+					</div>			
+				</div>			
+			</div>
+		</div>	
 	</div>
-	<div class="wholeGrid" style="position:absolute; left:245px;top:71px; overflow-x: scroll;width:1072px; height: 100%">
-		<div style="display: inline-flex; align-items: center;height:46px;padding-bottom: 47px">			
-			<div ng-if="(currentTime.getTime() >= currentDate.getTime())&&(currentTime.getTime() <= endOfDay.getTime())" 
-			class="currentTime" style="left:{{(currentTime-currentDate)/60000/60*65+17}}px;">
-				<span style="display: inline-block;vertical-align: middle;line-height: normal">
-					{{currentTimeFormatted}}
-				</span>			
-			</div>						
-			<div ng-repeat="h in getNextHour" class="timeLine" style="text-align: center;">				
-				<div style="color: {{h.style}}">
-					{{h.hrs}}		
-				</div>											
+	
+	<div style="padding-top:118px"></div>
+
+	<div ng-repeat="groupedRooms in rooms | groupBy:'floor' | toArray:true | orderBy:'floor'">		
+		<!-- <div style="display: inline-flex;">
+			<div class="floor">
+				<label>{{groupedRooms.$key}} ЭТАЖ</label>				
 			</div>			
+			<div style="display: inline-block;width: 100%;background-color: #e9ecef;height: 36.8px;">
+			</div>					
+		</div> -->
+
+		<div>
+			<div class="floor">
+				<label>{{groupedRooms.$key}} ЭТАЖ</label>				
+			</div>			
+			<div class="floor-grid-placeholder">
+			</div>					
 		</div>
 		
-		
-		<div class="room" ng-repeat="r in rooms | orderBy:'floor'">		
-			<div class="timeRow">					
+		<div class="roomContainer" ng-repeat="r in groupedRooms | orderBy:'title'">
+			<div class="roomLabel">			
+				<div class="roomLabelContainer">
+					<span class="roomTitle">{{r.title}}</span>
+					<br>
+					<span class="roomCapability">до {{r.capacity}} человек</span>	
+				</div>
+			</div>
+			<div style="display:inline-block;margin-left: 32.5px">
 				<div ng-repeat="e in r.timeslots" ng-switch="e.occupied" style="display:inline-block; height:44px;">
 					<div ng-switch-when="true" style="display:inline-block;height:44px;">
-						<div class="oCell closed" ng-click="go('/editEvent:'+e.id)" id="{{e.id}}" style="display:inline-block; width:{{(e.dateEnd-e.dateStart)/60000/60*65}}px">
+						<div class="oCell closed" ng-click="go('/editEvent/'+e.id)" id="{{e.id}}" style="display:inline-block; width:{{(e.dateEnd-e.dateStart)/60000/60*65}}px">
+							
 							<div class="eventToolTip" style="padding:16px; left: -{{169-((e.dateEnd-e.dateStart)/60000/60*65)/2}}px">
 								<label style="font-family: HelveticaNeue-Bold;font-size: 15px;color: #000000;letter-spacing: 0;line-height: 24px;" for="">{{e.title}}</label>
 								<div style="float:right">
@@ -89,33 +104,36 @@
 									</div>
 								</div>									
 								<br>
-
 								<label style="font-family: HelveticaNeue;font-size: 13px;color: #000000;letter-spacing: 0;line-height: 17px;" for="">
 									{{('0' + e.dateStart.getHours()).slice(-2)+':' + ('0' + e.dateStart.getMinutes()).slice(-2)+'—'+('0' + e.dateEnd.getHours()).slice(-2)+':' + ('0' + e.dateEnd.getMinutes()).slice(-2)}}
 								</label><br>									
-
-								<img class="avatar" ng-src="{{e.users[0].avatarUrl}}" alt="">
-								
+								<img class="avatar" ng-src="{{e.users[0].avatarUrl}}" alt="">								
 								<label style="font-family: Helvetica;font-size: 13px;color: #000000;letter-spacing: 0;line-height: 17px;" for="">
 									{{e.users[0].login}}
-								</label>
-								
+								</label>								
 								<div ng-if="e.users.length>1">
 									<label style="font-family: Helvetica;font-size: 13px;color: #37003E;letter-spacing: 0;line-height: 17px;"for="">
 									 и {{e.users.length-1}} участников
 									</label>	
-								</div>
-								
+								</div>								
 							</div>
+							
 						</div>		
 					</div>
 					<div ng-switch-when="false" style="display:inline-block;height:44px;">
 						<div class="oCell free" ng-click="go('/editEvent')" style="display:inline-block;width:{{(e.dateEnd-e.dateStart)/60000/60*65}}px">
-						</div>		
-					</div>
-					
-				</div>
-			</div>
+						</div>
+						<!-- <button class="gridAddButton" ng-click="go('/editEvent')" style="padding:0;margin:0;width:100%;height:100%;border:0;color:white;border-radius: 2px;">+</button> -->
+					</div>				
+				</div>	
+			</div>			
+			
 		</div>
+		<!-- <div class="roomContainer" ng-repeat="r in groupedRooms | orderBy:'title'">		
+			<div class="roomDivider">				
+				</div>
+				<div class="roomDivider-grid-placeholder">
+				</div>				
+		</div> -->
 	</div>
 </div>

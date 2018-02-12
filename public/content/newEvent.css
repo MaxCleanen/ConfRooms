@@ -127,13 +127,6 @@ button.cancel:disabled
 }
 
 
-.heading
-{	
-	background: #FFFFFF;
-	box-shadow: 0 1px 0 0 #E9ECEF;
-	/*padding: 25px 0 21.6px 24.6px;*/
-}
-
 
 
 .pageHeader
@@ -237,4 +230,14 @@ label.captionFont
 .bigCloseImage:hover #crossSVG
 {
 	fill:red;
+}
+
+.gridAddButton:hover
+{
+	background-color:#2B50FD;
+}
+
+.gridAddButton
+{
+	background-color:white;
 }

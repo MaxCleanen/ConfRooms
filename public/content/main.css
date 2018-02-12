@@ -1,0 +1,179 @@
+
+.occupliedSlot
+{
+	background-color: #d5dfea
+}
+
+.roomTitle
+{
+	font-family: HelveticaNeue-Medium;
+	font-size: 15px;
+	color: #000000;
+	line-height: 17px;
+}
+.roomCapability
+{
+	font-family: HelveticaNeue;
+	font-size: 13px;
+	color: #000000;
+	line-height: 17px;
+}
+
+.floor
+{
+	font-family: HelveticaNeue-Bold;
+	font-size: 11px;
+	color: #858E98;
+	letter-spacing: 0.4px;
+}
+
+.timeLine
+{
+	display: inline-block;
+	width:49px; 
+	margin:0 8px; 
+}
+
+.timeLine::after
+{
+	height: 100%;
+	width: 0;
+	position: absolute;
+	border: 1px solid rgba(19,100,205,0.10);	
+	content: " ";
+	z-index: 1000;
+}
+
+
+.currentTime
+{
+	background: #007DFF;
+	border-radius: 100px;
+	width: 49px;	
+	height:20px;
+
+	position: 	absolute;
+	display: inline-block;
+	line-height:20px;
+	text-align:center;	
+
+	font-family: HelveticaNeue-Bold;
+	font-size: 11px;
+	color: #FFFFFF;
+	letter-spacing: 0.4px;
+}
+
+.currentTime::after
+{	
+	height: 100%;			
+	width: 0;	
+	border: 1px solid #007DFF;	
+	content: " ";
+	z-index: 998;
+	margin-left:-15px;
+    position: fixed;    
+}
+
+.closed
+{
+	background: #D5DFE9;
+	position: relative;
+	display: inline-block;
+}
+.closed .eventToolTip
+{
+	visibility: hidden;
+	background-color:white;			
+	border-radius: 8px;
+	width: 338px;
+	height:120.8px;
+	padding:0 0 16px 16px;			
+	box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);			
+	position: absolute;
+    top: 100%;
+	box-sizing: border-box;
+	z-index: 999;
+}
+.closed:hover{
+	background: #98A9B9;
+}
+.closed:hover .eventToolTip
+{
+	visibility: visible;
+}
+.closed:hover .eventToolTip::after
+{
+	content:"";			
+	position: absolute;
+	bottom:100%;
+	left:50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent transparent white transparent;
+}
+.eventToolTip:hover 
+{
+	visibility: visible;
+}
+
+
+
+
+div.timeRow
+{
+	border-left: 33px solid #e9Ecef;
+	height:44px;
+	display: inline-block;
+    margin-left: -3px;
+}
+/*div.roomDesc
+{
+	display: inline-block; 
+	width:220px;
+	padding: 4px 0;	
+	height: 36px;
+    background: #FFFFFF;
+	box-shadow: 1px 0 0 0 #E9ECEF;
+}*/
+.verticalLine
+{
+	border-left: thick 1px solid;
+}
+
+#Rectangle-4-Copy{
+	fill: rgba(0,0,0,0.43);
+}
+#rightArrow:hover #Rectangle-4-Copy
+{
+	fill: black;
+}
+#Rectangle-4
+{
+	fill: rgba(0,0,0,0.43);
+	stroke: rgba(0,0,0,0.43);
+}
+#leftArrow:hover #Rectangle-4
+{
+	fill: black;
+	stroke:black;
+}
+
+.calendarBox
+{
+	display:flex; 
+	align-items:center;
+	width:220px;
+}
+#ic_edit
+{
+	fill: rgba(0,0,0,0.43);
+}
+.pen
+{
+	display:flex; justify-content: center; align-items: center; background: #E9ECEF; width:24px;height:24px; border-radius: 100px;
+}
+.pen:hover #ic_edit
+{
+	fill: black;
+}

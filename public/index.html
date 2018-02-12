@@ -9,13 +9,13 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
     <script src="/scripts/core.js"></script>
     <script src="/scripts/moment-with-locales.js"></script>
+    <script src="/scripts/angular-filter.min.js"></script>
     
-
+	
+	<link rel="stylesheet" type="text/css" href="content/main.css">
 	<link rel="stylesheet" type="text/css" href="content/styleMobile.css" media="(max-device-width:360px)">
 	<link rel="stylesheet" type="text/css" href="content/styleDesktop.css" media="(min-device-width:361px)">
-
-	<link rel="stylesheet" type="text/css" href="/content/desktop.css" media="(min-device-width:361px)">
-	<link rel="stylesheet" type="text/css" href="/content/mobile.css" media="(max-device-width:360px)">
+	
 
 	<link rel="stylesheet" type="text/css" href="content/newEvent.css" media="(min-device-width:361px)">
 	<script src="/scripts/input-mask.js"  ></script>
@@ -32,158 +32,48 @@
 		@font-face{
 			font-family: HelveticaNeue-Bold;
 			src: url(fonts/HelveticaNeueBold.ttf);				
-			font-weight: bold;
+			
 		}
 		@font-face{
 			font-family: HelveticaNeue-Medium;
 			src: url(fonts/HelveticaNeue-Medium.ttf);				
-			font-weight: bold;
+			
 		}
 
 		body
 		{
 			white-space: nowrap;
-			width:1250px;
 		}
 
-
-
-	/* The Modal (background) */
-	.modal {
-	    display: none; /* Hidden by default */
-	    position: fixed; /* Stay in place */
-	    z-index: 1; /* Sit on top */
-	    padding-top: 100px; /* Location of the box */
-	    left: 0;
-	    top: 0;
-	    width: 100%; /* Full width */
-	    height: 100%; /* Full height */
-	    overflow: auto; /* Enable scroll if needed */
-	    background-color: rgb(0,0,0);
-	    background-color: rgba(0,0,0,0.4); 
-
-	    
-	}
-
-	/* Modal Content */
-	.modal-content {
-		background: #FFFFFF;
-		box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
-		border-radius: 8px;
-	    background-color: #fefefe;
-	    margin: auto;
-	    
-	    border: 1px solid #888;
-	    width: 444px;
-	    height: 228px;
-	}
-
-		/*table tr>td:first-child
-		{
-			width:220px; 						
-			padding: 4px 0;
+		/* The Modal (background) */
+		.modal {
+		    display: none; /* Hidden by default */
+		    position: fixed; /* Stay in place */
+		    z-index: 1; /* Sit on top */
+		    padding-top: 100px; /* Location of the box */
+		    left: 0;
+		    top: 0;
+		    width: 100%; /* Full width */
+		    height: 100%; /* Full height */
+		    overflow: auto; /* Enable scroll if needed */
+		    background-color: rgb(0,0,0);
+		    background-color: rgba(0,0,0,0.4); 
 		}
-		table
-		{
-			border-collapse: collapse;
-		}*/
-		.oCell
-		{			
-			border-top: 8px solid #E9ECEF; 
-			border-bottom: 8px solid #E9ECEF; 						
-			height: 28px;
-			padding:0;
-		}
-		
-		.closed
-		{
-			background: #D5DFE9;
-			position: relative;
-			display: inline-block;
-		}
-		.closed .eventToolTip
-		{
-			visibility: hidden;
-			background-color:white;			
+
+		/* Modal Content */
+		.modal-content {
+			background: #FFFFFF;
+			box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
 			border-radius: 8px;
-			width: 338px;
-			height:120.8px;
-			padding:0 0 16px 16px;			
-			box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);			
-			position: absolute;
-		    top: 100%;
-			box-sizing: border-box;
-			z-index: 999;
-		}
-		.closed:hover{
-			background: #98A9B9;
-		}
-		.closed:hover .eventToolTip
-		{
-			visibility: visible;
-		}
-		.closed:hover .eventToolTip::after
-		{
-			content:"";			
-			position: absolute;
-			bottom:100%;
-			left:50%;
-			margin-left: -5px;
-			border-width: 5px;
-			border-style: solid;
-			border-color: transparent transparent white transparent;
-		}
-		.eventToolTip:hover 
-		{
-			visibility: visible;
-		}
-
-		.free
-		{
-			background: white;	
-			width:100px;
-		}		
-		.free:hover
-		{
-			
-			background: #2B50FD;
-			border-radius: 2px;
-			color:white;
-			height:28px;
-		}
-		.free:hover::after
-		{
-			content:"";	
-			background: #2B50FD;
-			border-radius: 2px;
-			color:white;
-			height:28px;
+		    background-color: #fefefe;
+		    margin: auto;	    
+		    border: 1px solid #888;
+		    width: 444px;
+		    height: 228px;
 		}
 		
 		
 		
-		div.oCell
-		{
-			display: inline-block;
-			
-		}
-
-		div.timeRow
-		{
-			border-left: 33px solid #e9Ecef;
-			height:44px;
-			display: inline-block;
-		    margin-left: -3px;
-		}
-		div.roomDesc
-		{
-			display: inline-block; 
-			width:220px;
-			padding: 4px 0;	
-			height: 36px;
-		    background: #FFFFFF;
-    		box-shadow: 1px 0 0 0 #E9ECEF;
-		}
 		
 		.heading{		
 			background: #FFFFFF;	
@@ -192,49 +82,6 @@
 			box-shadow: 0 1px 0 0 #E9ECEF;	
 			position: relative;
 		}
-
-		#ic_edit{
-			fill: rgba(0,0,0,0.43);
-		}
-		.pen
-		{
-			display:flex; justify-content: center; align-items: center; background: #E9ECEF; width:24px;height:24px; border-radius: 100px;
-		}
-		.pen:hover #ic_edit
-		{
-			fill: black;
-		}
-		.verticalLine
-		{
-			border-left: thick 1px solid;
-		}
-
-		#Rectangle-4-Copy{
-			fill: rgba(0,0,0,0.43);
-		}
-		#rightArrow:hover #Rectangle-4-Copy
-		{
-			fill: black;
-		}
-
-		#Rectangle-4{
-			fill: rgba(0,0,0,0.43);
-			stroke: rgba(0,0,0,0.43);
-		}
-		#leftArrow:hover #Rectangle-4
-		{
-			fill: black;
-			stroke:black;
-		
-		}
-		
-		.calendarBox
-		{
-			display:flex; 
-			align-items:center;
-			width:220px;
-		}
-		
 
 	</style>
 </head>

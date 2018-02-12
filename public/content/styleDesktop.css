@@ -1,3 +1,71 @@
+.gridColor
+{
+	background-color: #f6f7f9;
+}
+
+.roomLabel
+{
+	height: 44px;
+	width:220px;	
+	display: inline-block;	
+	margin-right: -4px;
+}
+.roomLabelContainer
+{
+	padding: 4px 0;	
+	display:table;
+}
+
+.roomContainer
+{
+	height:44px;
+}
+
+.floor
+{
+	width:220px;
+	padding: 20px 0 4px 0;
+	display: inline-block;	
+	margin-right: -4px;	
+	vertical-align: top;
+}
+.floor-grid-placeholder
+{
+	vertical-align: top; 
+	display: inline-block;
+	width: 1625px;
+	background-color: #e9ecef;
+	height: 36.8px;
+}
+
+/*.roomDivider
+{
+	width:220px;
+	height:8px;	
+	display: inline-block;	
+	margin-right: -4px;	
+	vertical-align: top;
+}
+.roomDivider-grid-placeholder
+{
+	width: 1625px;
+	height: 8px;
+	display: inline-block;
+	vertical-align: top; 
+	background-color: #e9ecef;	
+}*/
+
+.timeLine::after
+{
+	top: 117px;
+}
+
+.currentTime::after
+{
+    top: 102px;
+}
+
+
 .dateDiv
 {
 	display:inline-flex; 
@@ -10,57 +78,46 @@
 	z-index:1000;
 }
 
+.oCell
+{
+	border: solid #E9ECEF; 			
+	border-width: 8px 0;		 						
+	height: 28px;
+	padding:0;
+}
+
+.free
+{
+	background: #FFFFFF;
+	position: relative;
+	/*border: 2px solid #D5DFE9;
+	border-radius: 4px;*/
+}		
+.free:hover
+{
+	
+	background: #2B50FD;
+	border-radius: 2px;
+	color:white;
+	height:28px;
+}
+.free:hover::after
+{
+	content:"";	
+	background: #2B50FD;
+	border-radius: 2px;
+	color:white;
+	height:28px;
+}
+
 
 .wholeGrid
 {
 	position: relative;
 	/*height:0;*/ 
 }
-.timeLine
-{
-	display: inline-block;
-	width:49px; 
-	margin:0 8px; 
-}
-.timeLine::after
-{
-	height: 100%;
-	width: 0;
-	position: absolute;
-	border: 1px solid rgba(19,100,205,0.10);
-	top: 46px;
-	content: " ";
-	z-index: 1000;
-}
-.currentTime
-{
-	position: 	absolute;	;
-	display: inline-block;
 
-	background: #007DFF;
-	border-radius: 100px;
-	width: 49px;
-	
-	height:20px;
-	line-height:20px;
-	text-align:center;	
 
-	font-family: HelveticaNeue-Bold;
-	font-size: 11px;
-	color: #FFFFFF;
-	letter-spacing: 0.4px;
-}
-.currentTime::after
-{	
-	height: 100%;			
-	width: 0;
-	position: absolute;
-	border: 1px solid #007DFF;
-	top: 20px;
-	content: " ";
-	z-index: 998;
-	margin-left:-15px;
-}
 
 body
 {
@@ -77,11 +134,12 @@ button
 button.createEvent
 {
 	background: #007DFF;
-	border-radius: 4px;
-	
+	border-radius: 4px;	
 	height: 36px;
 	width:140px;
+	border:0;
 	
+	color: #FFFFFF;
 	font-family: HelveticaNeue-Medium;
 	font-size: 13px;
 	letter-spacing: 0;
@@ -105,39 +163,20 @@ button.createEvent:active
 .heading img
 {
 	height: 24.4px;
-	width: 173.9px
+	width: 173.9px;
+	position:fixed;			
+	left: 25px;
+	top: 25px;
 }
 
-.floor
-{
-	height:38px;
-	font-family: HelveticaNeue-Bold;
-	font-size: 11px;
-	color: #858E98;
-	letter-spacing: 0.4px;
-	background: #FFFFFF;
-	box-shadow: 1px 0 0 0 #E9ECEF;
-}
+
 
 .room
 {
 	height:44px;	
 }
 
-.roomName
-{
-	font-family: HelveticaNeue-Medium;
-	font-size: 15px;
-	color: #000000;
-	line-height: 17px;
-}
-.roomCap
-{
-	font-family: HelveticaNeue;
-	font-size: 13px;
-	color: #000000;
-	line-height: 17px;
-}
+
 
 .oRoomName
 {
@@ -177,4 +216,154 @@ button.createEvent:active
 .avatar
 {		
 	border-radius: 16px;
+}
+
+.content
+{	
+	
+	width:872px;
+	padding-top: 32px;
+	margin:0 auto;
+}
+
+
+div.title
+{
+	display: inline-block;
+	width:420px;	
+	padding-right: 28px;
+}
+input.title, label.title
+{
+	width:420px;
+	display: block;
+}
+
+/*div.date
+{
+	display: inline-block;
+	width:238px;	
+	padding-right: 12px;
+}*/
+input.date
+{
+	width: 238px;
+	margin-right:12px;	
+}
+
+.dateTimeLabelsD
+{
+	display: inline-block;
+}
+.dateTimeLabelsM
+{
+	display: none;
+}
+
+
+
+label.date
+{
+	width:254px;
+	display: inline-block;
+}
+label.timeFrom
+{
+	width:94px;
+	display: inline-block;	
+}
+
+
+
+/*div.time
+{
+	display: inline-block;
+	width: 72px;	
+	
+}*/
+input.time
+{	
+	width: 72px;
+	display: block;
+}
+
+input.time::-webkit-input-placeholder
+{	
+	text-align: center;
+}
+input.time:-moz-placeholder
+{	
+	text-align: center;
+}
+input.time::-moz-placeholder
+{	
+	text-align: center;
+}
+input.time:-ms-input-placeholder
+{	
+	text-align: center;
+}
+div.users
+{
+	width:420px;
+	display: inline-block;
+	padding-right: 28px;
+	margin-top: 24px;
+	vertical-align: top;
+}
+
+.users label
+{
+	display: inline-block;
+	width:420px;		
+}
+.users select
+{	
+	width:420px;	
+}
+
+
+.participants-container
+{
+	margin-top:8px;	
+	width:420px; 
+	display: flex; 
+	flex-wrap: wrap;
+}
+
+.participant
+{	
+	margin-right:8px;
+	height: 24px;	
+	align-items: center; 
+	display: flex;	
+}
+/*.avatar
+{
+	32px;
+}*/
+.roomsPart
+{
+	display: inline-block;
+	margin-top:24px;	
+	width:420px; 
+	vertical-align: top;
+}
+.menuOptionsM, .bottomOptionsM
+{
+	display: none
+}
+
+.mentOptionsD
+{
+	display: inline;
+}
+.header
+{
+	margin-bottom: 20px;
+}
+.roomDescription
+{
+	width:370px;
+	
 }
