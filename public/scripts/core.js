@@ -330,10 +330,10 @@ YRoomsApp.controller("eventController", function eventController($scope, $http,$
         $scope.saveChanges = function(){
 
             //Тут тихий ужас от форматирования даты
-            var y = (new Date($scope.eventData.eventDate)).getFullYear();
-            var m = (new Date($scope.eventData.eventDate)).getDate()-1;
-            var d = (new Date($scope.eventData.eventDate)).getMonth()+3;
-            var date_string = (new Date(y,m,d)).toISOString().substr(0,10);
+            var y = $scope.eventData.eventDate.substr(6,4);
+            var m = $scope.eventData.eventDate.substr(3,2);
+            var d = $scope.eventData.eventDate.substr(0,2);
+            var date_string = y+"-"+m+"-"+d;
             //добавил поле ID в загрузке модели редактирования
             var newDateStart = new Date(date_string + 'T' + $scope.eventData.timeStart + ':00.000').toISOString();
             var newDateEnd = new Date(date_string + 'T'+ $scope.eventData.timeEnd + ':00.000').toISOString();
