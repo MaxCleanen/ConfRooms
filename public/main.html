@@ -82,7 +82,7 @@
 					<span class="roomCapability">до {{r.capacity}} человек</span>	
 				</div>
 			</div>
-			<div style="display:inline-block;margin-left: 32.5px">
+			<div style="display:inline-block;    border: solid #e9ecef; border-width: 0 32.5px">
 				<div ng-repeat="e in r.timeslots" ng-switch="e.occupied" style="display:inline-block; height:44px;">
 					<div ng-switch-when="true" style="display:inline-block;height:44px;">
 						<div class="oCell closed" ng-click="go('/editEvent/'+e.id)" id="{{e.id}}" style="display:inline-block; width:{{(e.dateEnd-e.dateStart)/60000/60*65}}px">
