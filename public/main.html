@@ -1,139 +1,99 @@
 <div ng-controller="mainController">
-
-	<div >
-		<div class="heading" style="position:fixed; top:0; background-color: white; z-index:100">		
+	<div style="display: flex; flex-direction: column">
+		<div style="display: flex; height: 71px; align-items: center;">
 			<img src="./images/graphics/logo.svg">
-			<button class="createEvent" style="position:fixed;right:12px;top:18px" ng-click="go('/editEvent')">Создать встречу</button>				
+			<button class="createEvent" ng-click="go('/editEvent')">Создать встречу</button>
 		</div>
-		<div style="position:relative; top:71px; background-color: white; z-index:1">
-			<div class="dateDiv">
-				<div class="calendarBox">			
-					<div id="leftArrow" ng-click="changedate(-1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px;">
-						<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-						    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
-						        <g id="главная" transform="translate(-31.000000, -88.000000)" stroke="#000000" stroke-width="2">
-						            <g id="Дата" transform="translate(24.000000, 82.000000)">
-						                <g id="arrow2" transform="translate(8.000000, 7.000000)">
-						                    <polyline id="Rectangle-4" transform="translate(5.000000, 5.000000) rotate(-315.000000) translate(-5.000000, -5.000000) " points="8 8 2 8 2 2 2 2"></polyline>
-						                </g>
-						            </g>
-						        </g>
-						    </g>
-						</svg>
-					</div>
-					<div style="display:inline-block;width:123px;margin:0 12.5px 0 13.5px;text-align: center">
-						{{currentDate.getDate()}} {{monthName}}
-					</div>
-					<div id="rightArrow" ng-click="changedate(+1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px; margin-right: 24px">
-						<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-						    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
-						        <g id="главная" transform="translate(-207.000000, -88.000000)" stroke="#000000" stroke-width="2">
-						            <g id="Дата" transform="translate(24.000000, 82.000000)">
-						                <g id="arrow" transform="translate(179.000000, 7.000000)">
-						                    <polyline id="Rectangle-4-Copy" transform="translate(5.000000, 5.000000) rotate(-135.000000) translate(-5.000000, -5.000000) " points="8 8 2 8 2 2 2 2"></polyline>
-						                </g>
-						            </g>
-						        </g>
-						    </g>
-						</svg>
-					</div>
+		<div style="position: sticky; top:0; left:0; height:30px">			
+			<div class="calendarBox">			
+				<div id="leftArrow" ng-click="changedate(-1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px;">
+					<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+						<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
+							<g id="главная" transform="translate(-31.000000, -88.000000)" stroke="#000000" stroke-width="2">
+								<g id="Дата" transform="translate(24.000000, 82.000000)">
+									<g id="arrow2" transform="translate(8.000000, 7.000000)">
+										<polyline id="Rectangle-4" transform="translate(5.000000, 5.000000) rotate(-315.000000) translate(-5.000000, -5.000000) " points="8 8 2 8 2 2 2 2"></polyline>
+									</g>
+								</g>
+							</g>
+						</g>
+					</svg>
 				</div>
-				<div style="display: inline-flex; align-items: center;">			
+				<div style="display:inline-block;width:123px;margin:0 12.5px 0 13.5px;text-align: center">
+					{{currentDate.getDate()}} {{monthName}}
+				</div>
+				<div id="rightArrow" ng-click="changedate(+1)" style="display:inline-block;width:24px;height: 24px; background: #E9ECEF;border-radius: 100px; margin-right: 24px">
+					<svg style="margin: 7px 7px" width="10px" height="10px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+						<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-opacity="0.427536232">
+							<g id="главная" transform="translate(-207.000000, -88.000000)" stroke="#000000" stroke-width="2">
+								<g id="Дата" transform="translate(24.000000, 82.000000)">
+									<g id="arrow" transform="translate(179.000000, 7.000000)">
+										<polyline id="Rectangle-4-Copy" transform="translate(5.000000, 5.000000) rotate(-135.000000) translate(-5.000000, -5.000000) " points="8 8 2 8 2 2 2 2"></polyline>
+									</g>
+								</g>
+							</g>
+						</g>
+					</svg>
+				</div>
+			</div>
+			<div style="position: sticky; top:30px;">
+				<div class="scale">
+					<div ng-repeat="h in getNextHour" class="hour">				
+						<div style="color: {{h.style}}">
+							{{h.hrs}}		
+						</div>											
+					</div>	
+				</div>
+				<!-- <div style="display: inline-flex; align-items: center;">			
 					<div ng-if="(currentTime.getTime() >= currentDate.getTime())&&(currentTime.getTime() <= endOfDay.getTime())" 
 					class="currentTime" style="left:{{(((currentTime-currentDate)/60000)*65/60)+33+245-25}}px;">
 						<span style="vertical-align: middle;">
 							{{currentTimeFormatted}}
 						</span>			
 					</div>						
-					<div ng-repeat="h in getNextHour" class="timeLine" style="text-align: center;">				
-						<div style="color: {{h.style}}">
-							{{h.hrs}}		
-						</div>											
-					</div>			
-				</div>			
+				</div>	 -->
 			</div>
-		</div>	
-	</div>
-	
-	<div style="padding-top:118px"></div>
-
-	<div ng-repeat="groupedRooms in rooms | groupBy:'floor' | toArray:true | orderBy:'floor'">		
-		<!-- <div style="display: inline-flex;">
-			<div class="floor">
-				<label>{{groupedRooms.$key}} ЭТАЖ</label>				
-			</div>			
-			<div style="display: inline-block;width: 100%;background-color: #e9ecef;height: 36.8px;">
-			</div>					
-		</div> -->
-
-		<div>
-			<div class="floor">
-				<label>{{groupedRooms.$key}} ЭТАЖ</label>				
-			</div>			
-			<div class="floor-grid-placeholder">
-			</div>					
-		</div>
-		
-		<div class="roomContainer" ng-repeat="r in groupedRooms | orderBy:'title'">
-			<div class="roomLabel">			
-				<div class="roomLabelContainer">
-					<span class="roomTitle">{{r.title}}</span>
-					<br>
-					<span class="roomCapability">до {{r.capacity}} человек</span>	
-				</div>
-			</div>
-			<div style="display:inline-block;    border: solid #e9ecef; border-width: 0 32.5px">
-				<div ng-repeat="e in r.timeslots" ng-switch="e.occupied" style="display:inline-block; height:44px;">
-					<div ng-switch-when="true" style="display:inline-block;height:44px;">
-						<div class="oCell closed" ng-click="go('/editEvent/'+e.id)" id="{{e.id}}" style="display:inline-block; width:{{(e.dateEnd-e.dateStart)/60000/60*65}}px">
-							
-							<div class="eventToolTip" style="padding:16px; left: -{{169-((e.dateEnd-e.dateStart)/60000/60*65)/2}}px">
-								<label style="font-family: HelveticaNeue-Bold;font-size: 15px;color: #000000;letter-spacing: 0;line-height: 24px;" for="">{{e.title}}</label>
-								<div style="float:right">
-									<div class="pen">
-										<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-										    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-										        <g id="assets" transform="translate(-110.000000, -76.000000)">
-										            <g id="edit" transform="translate(108.000000, 74.000000)">
-										                <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
-										                <path d="M13.0793987,5.10592253 C13.3068671,4.87845412 13.3068671,4.49934011 13.0793987,4.28353675 L11.7145883,2.91872631 C11.4987849,2.6912579 11.1196709,2.6912579 10.8922025,2.91872631 L9.81901819,3.98607806 L12.0062144,6.17327428 L13.0793987,5.10592253 Z M2.75,11.0609288 L2.75,13.248125 L4.93719622,13.248125 L11.3879669,6.79152175 L9.20077073,4.60432553 L2.75,11.0609288 Z" id="ic_edit" fill="#000000" fill-rule="nonzero"></path>
-										            </g>
-										        </g>
-										    </g>
-										</svg>
-									</div>
-								</div>									
-								<br>
-								<label style="font-family: HelveticaNeue;font-size: 13px;color: #000000;letter-spacing: 0;line-height: 17px;" for="">
-									{{('0' + e.dateStart.getHours()).slice(-2)+':' + ('0' + e.dateStart.getMinutes()).slice(-2)+'—'+('0' + e.dateEnd.getHours()).slice(-2)+':' + ('0' + e.dateEnd.getMinutes()).slice(-2)}}
-								</label><br>									
-								<img class="avatar" ng-src="{{e.users[0].avatarUrl}}" alt="">								
-								<label style="font-family: Helvetica;font-size: 13px;color: #000000;letter-spacing: 0;line-height: 17px;" for="">
-									{{e.users[0].login}}
-								</label>								
-								<div ng-if="e.users.length>1">
-									<label style="font-family: Helvetica;font-size: 13px;color: #37003E;letter-spacing: 0;line-height: 17px;"for="">
-									 и {{e.users.length-1}} участников
-									</label>	
-								</div>								
+			<div style="display: flex; flex-direction: row">
+					<div style="position: sticky; left:0">
+						<div ng-repeat="groupedRooms in rooms | groupBy:'floor' | toArray:true | orderBy:'floor'">
+							<div class="floor">
+								<label>{{groupedRooms.$key}} ЭТАЖ</label>				
 							</div>
-							
-						</div>		
+							<div class="roomContainer" ng-repeat="r in groupedRooms | orderBy:'title'">
+								<div class="roomLabel">			
+									<div class="roomLabelContainer">
+										<span class="roomTitle">{{r.title}}</span>
+										<br>
+										<span class="roomCapability">до {{r.capacity}} человек</span>	
+									</div>
+								</div>
+							</div>			
+						</div>			
 					</div>
-					<div ng-switch-when="false" style="display:inline-block;height:44px;">
-						<div class="oCell free" ng-click="go('/editEvent')" style="display:inline-block;width:{{(e.dateEnd-e.dateStart)/60000/60*65}}px">
-						</div>
-						<!-- <button class="gridAddButton" ng-click="go('/editEvent')" style="padding:0;margin:0;width:100%;height:100%;border:0;color:white;border-radius: 2px;">+</button> -->
-					</div>				
-				</div>	
-			</div>			
-			
-		</div>
-		<!-- <div class="roomContainer" ng-repeat="r in groupedRooms | orderBy:'title'">		
-			<div class="roomDivider">				
+					<div style="background:  #e9ecef">
+						<div class="roomContainersGroup" >
+							<div ng-repeat="groupedRooms in rooms | groupBy:'floor' | toArray:true | orderBy:'floor'">
+								<div style="background-color: #e9ecef;;height:38px"></div>
+								<div class="roomContainer" ng-repeat="r in groupedRooms | orderBy:'title'">				
+									<div style="display:inline-block;    border: solid #e9ecef; border-width: 0">
+										<div ng-repeat="e in r.timeslots" ng-switch="e.occupied" style="display:inline-block; height:44px;">
+											<div ng-switch-when="true" style="display:inline-block;height:44px;">
+												<div class="oCell closed" ng-click="go('/editEvent/'+e.id)" id="{{e.id}}" style="display:inline-block; width:{{(e.dateEnd-e.dateStart)/60000/60*65}}px">
+												</div>		
+											</div>
+											<div ng-switch-when="false" style="display:inline-block;height:44px;">
+												<div class="oCell free" ng-click="go('/editEvent')" style="display:inline-block;width:{{(e.dateEnd-e.dateStart)/60000/60*65}}px">
+												</div>
+											</div>				
+										</div>	
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+									
 				</div>
-				<div class="roomDivider-grid-placeholder">
-				</div>				
-		</div> -->
-	</div>
+		</div>		
+	</div>	
+		
 </div>

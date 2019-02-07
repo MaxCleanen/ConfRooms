@@ -1,4 +1,29 @@
+.roomContainersGroup{
+	display: flex;
+	flex-direction: column;
+	margin-left:10px;
+}
+.scale{
+	display: flex; 
+	flex-direction: row;
+}
+.hour{
+	flex:1; 
+	position:relative; 
+	text-align: center;
+}
+.hour:before{
+	display: block;
+	content: '';
 
+	top:100%;
+	left:50%;
+	position:absolute;
+
+	width:0;
+	height: calc(100vh - 60px);
+	border-left:1ps solid #ccc;
+}
 .occupliedSlot
 {
 	background-color: #d5dfea
@@ -27,12 +52,12 @@
 	letter-spacing: 0.4px;
 }
 
-.timeLine
+/* .timeLine
 {
 	display: inline-block;
 	width:49px; 
 	margin:0 8px; 
-}
+} */
 
 .timeLine::after
 {
