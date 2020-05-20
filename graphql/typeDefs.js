@@ -1,16 +1,28 @@
 module.exports = `
 scalar Date
 
+input UserInput {
+    login: String!
+    homeFloor: Int
+}
+
+input RoomInput {
+    title: String!
+    capacity: Int!
+    floor: Int!
+}
+
+input EventInput {
+    title: String!
+    dateStart: Date!
+    dateEnd: Date!
+}
+
 type User {
     id: ID!
     login: String!
     homeFloor: Int
     avatarUrl: String!
-}
-
-input UserInput {
-    login: String!
-    homeFloor: Int
 }
 
 type UserRoom {
@@ -25,12 +37,6 @@ type Room {
     floor: Int!
 }
 
-input RoomInput {
-    title: String!
-    capacity: Int!
-    floor: Int!
-}
-
 type Event {
     id: ID!
     title: String!
@@ -40,13 +46,9 @@ type Event {
     room: Room
 }
 
-input EventInput {
-    title: String!
-    dateStart: Date!
-    dateEnd: Date!
-}
-
 type Query {
+
+  hello: String
   user(id: ID!): User
   users: [User]
   event(id: ID!): Event
@@ -56,6 +58,8 @@ type Query {
 }
 
 type Mutation {
+
+
   createUser(input: UserInput!): User
   updateUser(id: ID!, input: UserInput!): User
   removeUser(id: ID!): User

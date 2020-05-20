@@ -1,13 +1,13 @@
 module.exports.index = function (req, res) {
-  res.sendFile(__dirname+'/public/main.html');
+  res.sendFile(__dirname + "/../public/main.html");
 };
-
 
 module.exports.createEvent = function (req, res) {
-  res.sendFile(__dirname+'/public/newEvent.html');
+  res.sendFile(__dirname + "../public/newEvent.html");
 };
+
 module.exports.editEvent = function (req, res) {
-  res.sendFile(__dirname+'/public/newEvent.html');
+  res.sendFile(__dirname + "../public/newEvent.html");
 };
 
 // app.get('/event/get:event_id', function(req, res) {
@@ -22,13 +22,12 @@ module.exports.editEvent = function (req, res) {
 // 		res1.setEncoding("utf-8");
 // 		res1.on("data",function(chunk)
 // 			{
-// 				var resObj = JSON.parse(chunk);				
+// 				var resObj = JSON.parse(chunk);
 // 				res.json(resObj.data.event);
 // 			})
-// 	});		
+// 	});
 // });
 
 // app.get('/event',function(r,s){
 // 	s.sendFile(__dirname+'/public/main.html');
 // })
-

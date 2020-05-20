@@ -1,19 +1,18 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
-const scheme = require('./scheme');
+const scheme = require("./scheme");
 
 const Op = Sequelize.Op;
 
-const sequelize = new Sequelize('DB', null, null, { //ошибка в конструкторе
-  dialect: 'sqlite',
-  storage: 'db.sqlite3',
-
-operatorsAliases: { $and: Op.and },
-
-  logging: false
+const sequelize = new Sequelize("DB", null, null, {
+  dialect: "sqlite",
+  storage: "db.sqlite3",
+  operatorsAliases: { $and: Op.and },
+  logging: console.log,
 });
 
 scheme(sequelize);
+
 sequelize.sync();
 
 module.exports.sequelize = sequelize;

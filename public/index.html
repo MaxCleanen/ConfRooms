@@ -1,95 +1,93 @@
 <!DOCTYPE html>
 <html ng-app="YRoomsApp">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width">
-	
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
     <script src="/scripts/core.js"></script>
     <script src="/scripts/moment-with-locales.js"></script>
     <script src="/scripts/angular-filter.min.js"></script>
-    
-	
-	<link rel="stylesheet" type="text/css" href="content/main.css">
-	<link rel="stylesheet" type="text/css" href="content/styleMobile.css" media="(max-device-width:360px)">
-	<link rel="stylesheet" type="text/css" href="content/styleDesktop.css" media="(min-device-width:361px)">
-	
 
-	<link rel="stylesheet" type="text/css" href="content/newEvent.css" media="(min-device-width:361px)">
-	<script src="/scripts/input-mask.js"  ></script>
-	<link rel="stylesheet" type="text/css" href="content/input-mask.css">
-	
-	
-	
+    <link rel="stylesheet" type="text/css" href="content/main.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="content/styleMobile.css"
+      media="(max-device-width:360px)"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="content/styleDesktop.css"
+      media="(min-device-width:361px)"
+    />
 
-	<style type="text/css">
-		@font-face{
-			font-family: HelveticaNeue;
-			src: url(fonts/HelveticaNeue.ttf);				
-		}
-		@font-face{
-			font-family: HelveticaNeue-Bold;
-			src: url(fonts/HelveticaNeueBold.ttf);				
-			
-		}
-		@font-face{
-			font-family: HelveticaNeue-Medium;
-			src: url(fonts/HelveticaNeue-Medium.ttf);				
-			
-		}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="content/newEvent.css"
+      media="(min-device-width:361px)"
+    />
+    <script src="/scripts/input-mask.js"></script>
+    <link rel="stylesheet" type="text/css" href="content/input-mask.css" />
 
-		body
-		{
-			white-space: nowrap;
-		}
+    <style type="text/css">
+      @font-face {
+        font-family: HelveticaNeue;
+        src: url(fonts/HelveticaNeue.ttf);
+      }
+      @font-face {
+        font-family: HelveticaNeue-Bold;
+        src: url(fonts/HelveticaNeueBold.ttf);
+      }
+      @font-face {
+        font-family: HelveticaNeue-Medium;
+        src: url(fonts/HelveticaNeue-Medium.ttf);
+      }
 
-		/* The Modal (background) */
-		.modal {
-		    display: none; /* Hidden by default */
-		    position: fixed; /* Stay in place */
-		    z-index: 1; /* Sit on top */
-		    padding-top: 100px; /* Location of the box */
-		    left: 0;
-		    top: 0;
-		    width: 100%; /* Full width */
-		    height: 100%; /* Full height */
-		    overflow: auto; /* Enable scroll if needed */
-		    background-color: rgb(0,0,0);
-		    background-color: rgba(0,0,0,0.4); 
-		}
+      body {
+        white-space: nowrap;
+      }
 
-		/* Modal Content */
-		.modal-content {
-			background: #FFFFFF;
-			box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
-			border-radius: 8px;
-		    background-color: #fefefe;
-		    margin: auto;	    
-		    border: 1px solid #888;
-		    width: 444px;
-		    height: 228px;
-		}
-		
-		
-		
-		
-		.heading{		
-			background: #FFFFFF;	
-			display: flex;
-			align-items: center;
-			box-shadow: 0 1px 0 0 #E9ECEF;	
-			position: relative;
-		}
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+      }
 
-	</style>
-</head>
-<body>	
-	<ng-view>
-	</ng-view>
-</body>
+      /* Modal Content */
+      .modal-content {
+        background: #ffffff;
+        box-shadow: 0 1px 16px 0 rgba(0, 44, 92, 0.28);
+        border-radius: 8px;
+        background-color: #fefefe;
+        margin: auto;
+        border: 1px solid #888;
+        width: 444px;
+        height: 228px;
+      }
 
+      .heading {
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 1px 0 0 #e9ecef;
+        position: relative;
+      }
+    </style>
+  </head>
+  <body>
+    <ng-view> </ng-view>
+  </body>
 </html>
-
-
